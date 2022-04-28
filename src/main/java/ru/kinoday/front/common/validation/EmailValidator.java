@@ -1,4 +1,4 @@
-package firsov.study.securitySpring.validation;
+package ru.kinoday.front.common.validation;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

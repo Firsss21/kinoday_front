@@ -1,10 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head" th:with="pageTitle='Кинотеатр'"></head>
 <body>
+
+<div class="main"><header th:include="fragments/header"></header><div class="data">
+
+    <div class="container" style="display: inline-block; width: 45%">
+        hi eptahgfh
+    </div>
+    <div class="container" style="display: inline-block; width: 45%">
+        hi eptahgfh
+    </div>
+    <div class="container cntr" style="width: 70%" th:if="${not #lists.isEmpty(news)}">
+        <tr th:each="story: ${news}">
+            <td th:text="${story.name}" />
+            <td th:text="${story.text}" />
+        </tr>
+    </div>
+</div><footer th:include="fragments/footer"></footer></div>
 
 </body>
 </html>

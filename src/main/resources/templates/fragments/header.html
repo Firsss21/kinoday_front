@@ -1,0 +1,21 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="header">
+
+    <a style="width: 20%" href="/"><img class="logo" th:src="@{/images/logo2.png}"/></a>
+    <ul style="width: 80%" class="text navigation">
+        <a href="/movie/"><li class="underline" >ФИЛЬМЫ</li></a>
+        <a href="/schedule/"><li class="underline" >РАСПИСАНИЕ</li></a>
+        <a href="/cinema/"><li class="underline" >КИНОТЕАТРЫ</li></a>
+        <a href="/news/"><li class="underline" >НОВОСТИ</li></a>
+        <div th:switch="${#authentication}? ${#authorization.expression('isAuthenticated()')} : ${false}">
+            <a th:case="${false}" href="/login" style="float: right;padding: 0 40px 0 30px;"><li><span class="button">ВОЙТИ</span></li></a>
+            <a th:case="${true}" href="/profile" style="float: right;padding: 0 40px 0 30px;"><li><span class="button">ПРОФИЛЬ</span></li></a>
+        </div>
+
+    </ul>
+</div>
+</html>
+<!--<tr th:each="instance : ${session}">-->
+<!--    <td th:text="${instance.key}">keyvalue</td>-->
+<!--    <td th:text="${instance.value}">num</td>-->
+<!--</tr>-->

@@ -1,12 +1,12 @@
-package firsov.study.securitySpring.util;
+package ru.kinoday.front.common.util;
 
-import firsov.study.securitySpring.model.User;
-import firsov.study.securitySpring.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import ru.kinoday.front.common.model.User;
+import ru.kinoday.front.common.repository.UserRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {

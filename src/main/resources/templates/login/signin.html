@@ -1,10 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head" th:with="pageTitle='Войти'"></head>
 <body>
+
+<div class="main"><header th:include="fragments/header"></header><div class="data">
+
+    <div class="container cntr" style="width: 45%">
+        <div style="margin: 20px;">
+        <form method="post" class="login" action="/login">
+            <p class="text-danger" th:each="error : ${#fields.allErrors()}" th:text="${error}">Validation error</p>
+            <h2 class="bl" style="margin-bottom: 20px">Войти в аккаунт</h2>
+            <input type="email" id="username" name="username" class="mauto form-control" placeholder="Email" required>
+            <input type="password" id="password" name="password" class="mauto form-control" placeholder="Password" required>
+            <button class="mauto btn btn-outline-success btn-block" type="submit">Войти</button>
+            <a class="mauto btn btn-outline-secondary btn-block"    th:href="@{/signup}">Зарегистрироваться</a>
+            <a class="mauto btn btn-outline-secondary btn-block"    th:href="@{/forgotPassword}">Забыли пароль?</a>
+            </form>
+        </div>
+    </div>
+</div><footer th:include="fragments/footer"></footer></div>
 
 </body>
 </html>

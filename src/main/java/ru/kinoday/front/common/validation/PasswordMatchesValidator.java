@@ -1,6 +1,7 @@
-package firsov.study.securitySpring.validation;
+package ru.kinoday.front.common.validation;
 
-import firsov.study.securitySpring.dto.UserDTO;
+
+import ru.kinoday.front.common.validation.dto.UserDTO;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

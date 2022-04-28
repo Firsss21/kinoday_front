@@ -1,32 +1,35 @@
-package firsov.study.securitySpring.util;
+package ru.kinoday.front.common.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    private final AuthenticationSuccessHandler successHandler;
+
+    private final LogoutHandler logoutHandler;
+
     private final UserDetailsService userDetailsService;
     @Autowired
-    public SecurityConfiguration(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService) {
+    public SecurityConfiguration(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService, @Autowired AuthenticationSuccessHandler successHandler, @Autowired LogoutHandler logoutHandler) {
+        this.successHandler = successHandler;
+        this.logoutHandler = logoutHandler;
         this.userDetailsService = userDetailsService;
     }
 
@@ -40,24 +43,37 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/admin/**").hasRole("ADMIN")
         http
                 .csrf().disable()
+//                .addFilter(new SessionFilter(), BasicAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/signup").permitAll()
-                .antMatchers("/forgetPassword").permitAll()
-                .antMatchers("/changePassword").permitAll()
-                .antMatchers("/").permitAll()
-                .anyRequest()
-                .authenticated()
+                .antMatchers("/*").permitAll()
+                .antMatchers("/profile").authenticated()
+//                .antMatchers("/signup").permitAll()
+//                .antMatchers("/forgetPassword").permitAll()
+//                .antMatchers("/changePassword").permitAll()
+//                .antMatchers("/*").permitAll()
+//                .antMatchers( "/resources/css/*").permitAll()
+//                .antMatchers("/resources/images/*").permitAll()
+//                .antMatchers("/templates/css/*").permitAll()
+//                .antMatchers("/images/*").permitAll()
+//                .antMatchers("/css/*").permitAll()
+                // TODO: dont filter static files
+//                .antMatchers("/templates/*")
+//                .anyRequest()
+//                .authenticated()
                 .and()
+//                .addFilterAfter(new SessionFilter(), BasicAuthenticationFilter.class)
                 .formLogin()
+                .defaultSuccessUrl("/")
+                .successHandler(successHandler)
                 .loginPage("/login").permitAll()
-                .defaultSuccessUrl("/success")
                 .and()
                 .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "POST"))
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
                 .deleteCookies("JSESSIONID")
                 .logoutSuccessUrl("/login")
+                .addLogoutHandler(logoutHandler)
                 .and()
                 .exceptionHandling().accessDeniedPage("/access-denied");
     }
@@ -66,7 +82,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(12);
     }
-
     @Bean
     protected DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider dap = new DaoAuthenticationProvider();

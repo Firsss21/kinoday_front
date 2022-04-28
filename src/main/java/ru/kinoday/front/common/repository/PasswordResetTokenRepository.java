@@ -1,7 +1,7 @@
-package firsov.study.securitySpring.repository;
+package ru.kinoday.front.common.repository;
 
-import firsov.study.securitySpring.model.PasswordResetToken;
 import org.springframework.data.jpa.repository.JpaRepository;
+import ru.kinoday.front.common.model.PasswordResetToken;
 
 import java.util.Optional;
 

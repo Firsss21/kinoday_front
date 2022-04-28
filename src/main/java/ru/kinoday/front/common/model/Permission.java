@@ -1,4 +1,4 @@
-package firsov.study.securitySpring.model;
+package ru.kinoday.front.common.model;
 
 public enum Permission {
     WORKER_WRITE("worker:read"),

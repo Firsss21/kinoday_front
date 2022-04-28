@@ -1,4 +1,4 @@
-package firsov.study.securitySpring.validation;
+package ru.kinoday.front.common.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = PasswordMatchesValidator.class)
 public @interface PasswordMatches {
-    String message() default "Passwords don't match";
+    String message() default "Пароли не совпадают";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

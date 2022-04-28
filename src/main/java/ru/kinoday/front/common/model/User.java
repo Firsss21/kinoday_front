@@ -1,4 +1,4 @@
-package firsov.study.securitySpring.model;
+package ru.kinoday.front.common.model;
 
 import jdk.jfr.DataAmount;
 import lombok.Data;
@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
+@Table(name = "KinoUser")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

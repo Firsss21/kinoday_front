@@ -1,12 +1,15 @@
-package firsov.study.securitySpring.util;
+package ru.kinoday.front.common.util;
 
 
-import firsov.study.securitySpring.model.Status;
-import firsov.study.securitySpring.model.User;
 import lombok.Data;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import ru.kinoday.front.common.model.Status;
+import ru.kinoday.front.common.model.User;
 
 import java.util.Collection;
 import java.util.List;

@@ -1,10 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head" th:with="pageTitle='Регистрация'"></head>
 <body>
+
+<div class="main"><header th:include="fragments/header"></header><div class="data">
+
+    <div class="container cntr" style="width: 45%">
+        <div style="margin: 20px;">
+            <form method="post" class="login" th:object="${user}" action="/signup">
+                <p class="text-danger" th:each="error : ${#fields.allErrors()}" th:text="${error}">Validation error</p>
+                <p class="text-danger" th:text="${message}">Validation error</p>
+                <h2 class="bl" style="margin-bottom: 20px">Регистрация</h2>
+                <p th:each="error : ${#fields.errors('login')}" th:text="${error}">Validation error</p>
+                <input th:field="*{login}" type="text" id="login" name="login" class="mauto form-control" placeholder="Login" required>
+                <p th:each="error : ${#fields.errors('email')}" th:text="${error}">Validation error</p>
+                <input type="email" th:field="*{email}"  id="email" name="email" class="mauto form-control" placeholder="Email" required>
+                <p th:each="error : ${#fields.errors('password')}" th:text="${error}">Validation error</p>
+                <input th:field="*{password}"  type="password" id="password" name="password" class="mauto form-control" placeholder="Password" required>
+                <p th:each="error : ${#fields.errors('matchingPassword')}" th:text="${error}">Validation error</p>
+                <input th:field="*{matchingPassword}"  type="password" id="matchingPassword" name="matchingPassword" class="mauto form-control" placeholder="Repeat password" required>
+                <button class="mauto btn btn-outline-success btn-block" type="submit">Зарегистрироваться</button>
+                <a class="mauto btn btn-outline-secondary btn-block"    th:href="@{/login}">Войти</a>
+            </form>
+        </div>
+    </div>
+</div><footer th:include="fragments/footer"></footer></div>
 
 </body>
 </html>

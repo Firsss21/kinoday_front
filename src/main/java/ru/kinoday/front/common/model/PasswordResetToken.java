@@ -1,4 +1,4 @@
-package firsov.study.securitySpring.model;
+package ru.kinoday.front.common.model;
 
 import lombok.Data;
 import org.hibernate.annotations.GeneratorType;
