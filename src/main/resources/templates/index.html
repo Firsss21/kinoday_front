@@ -4,10 +4,10 @@
 
 <div class="main"><header th:include="fragments/header"></header><div class="data">
 
-    <div class="container" style="display: inline-block; width: 45%">
+    <div class="container" th:if="${not #lists.isEmpty(movies)}" style="display: inline-block; width: 45%">
         hi eptahgfh
     </div>
-    <div class="container" style="display: inline-block; width: 45%">
+    <div class="container" th:if="${not #lists.isEmpty(cinema)}" style="display: inline-block; width: 45%">
         hi eptahgfh
     </div>
     <div class="container cntr" style="width: 70%" th:if="${not #lists.isEmpty(news)}">

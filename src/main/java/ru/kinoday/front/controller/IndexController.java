@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.kinoday.front.cinema.CinemaService;
 import ru.kinoday.front.common.exception.SendEmailException;
 import ru.kinoday.front.common.exception.UserAlreadyExistException;
 import ru.kinoday.front.common.exception.UserNotFoundException;
@@ -27,10 +28,15 @@ public class IndexController {
     private UserService userService;
     private TokenService tokenService;
     private NewsService newsService;
+    private CinemaService cinemaService;
 
     @GetMapping
     public String index(Model m) {
+        System.out.println(cinemaService.getAllCinema());
+        System.out.println(cinemaService.getLastMovies(6));
         m.addAttribute("news", newsService.getLastNews(3));
+        m.addAttribute("movies", cinemaService.getLastMovies(6));
+        m.addAttribute("cinema", cinemaService.getAllCinema());
         return "index";
     }
     @GetMapping("/login")

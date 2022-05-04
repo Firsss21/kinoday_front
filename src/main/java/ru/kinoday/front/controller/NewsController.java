@@ -1,4 +1,4 @@
-package ru.kinoday.front.news.controller;
+package ru.kinoday.front.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
