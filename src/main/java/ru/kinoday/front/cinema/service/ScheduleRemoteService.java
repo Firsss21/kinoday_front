@@ -10,6 +10,7 @@ import ru.kinoday.front.cinema.CinemaService;
 import ru.kinoday.front.cinema.ScheduleService;
 import ru.kinoday.front.cinema.model.Schedule;
 import ru.kinoday.front.cinema.model.ScheduleDTO;
+import ru.kinoday.front.cinema.model.Show;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -80,11 +81,29 @@ public class ScheduleRemoteService implements ScheduleService {
                 ScheduleDTO.class,
                 variables
         );
-        System.out.println(response);
         if (response.getStatusCode().is2xxSuccessful()) {
             return response.getBody().toSchedule();
         } else {
             return Schedule.empty();
+        }
+    }
+
+    public Show getShow(long scheduleId) {
+        String urlTemplate = UriComponentsBuilder.fromHttpUrl(hostAddress + pathSchedule)
+                .queryParam("id", "{id}")
+                .encode()
+                .toUriString();
+
+        ResponseEntity<Show> response = restTemplate.getForEntity(
+                urlTemplate,
+                Show.class,
+                Map.of("id", scheduleId)
+        );
+
+        if (response.getStatusCode().is2xxSuccessful()) {
+            return response.getBody();
+        } else {
+            return new Show();
         }
     }
 
