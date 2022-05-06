@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.kinoday.front.cinema.CinemaService;
+import ru.kinoday.front.cinema.ScheduleService;
 import ru.kinoday.front.common.exception.SendEmailException;
 import ru.kinoday.front.common.exception.UserAlreadyExistException;
 import ru.kinoday.front.common.exception.UserNotFoundException;
@@ -19,6 +20,9 @@ import ru.kinoday.front.news.service.NewsService;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Controller
 @AllArgsConstructor
@@ -32,8 +36,6 @@ public class IndexController {
 
     @GetMapping
     public String index(Model m) {
-        System.out.println(cinemaService.getAllCinema());
-        System.out.println(cinemaService.getLastMovies(6));
         m.addAttribute("news", newsService.getLastNews(3));
         m.addAttribute("movies", cinemaService.getLastMovies(6));
         m.addAttribute("cinema", cinemaService.getAllCinema());
