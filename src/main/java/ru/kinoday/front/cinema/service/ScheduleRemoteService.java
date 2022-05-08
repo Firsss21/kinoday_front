@@ -89,17 +89,7 @@ public class ScheduleRemoteService implements ScheduleService {
     }
 
     public Show getShow(long scheduleId) {
-        String urlTemplate = UriComponentsBuilder.fromHttpUrl(hostAddress + pathSchedule)
-                .queryParam("id", "{id}")
-                .encode()
-                .toUriString();
-
-        ResponseEntity<Show> response = restTemplate.getForEntity(
-                urlTemplate,
-                Show.class,
-                Map.of("id", scheduleId)
-        );
-
+        ResponseEntity<Show> response = restTemplate.getForEntity(hostAddress + pathSchedule + scheduleId, Show.class);
         if (response.getStatusCode().is2xxSuccessful()) {
             return response.getBody();
         } else {

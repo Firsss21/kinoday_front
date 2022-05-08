@@ -8,6 +8,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.kinoday.front.cinema.CinemaService;
 import ru.kinoday.front.cinema.ScheduleService;
+import ru.kinoday.front.cinema.model.Movie;
+import ru.kinoday.front.cinema.model.Schedule;
+import ru.kinoday.front.cinema.model.ScheduleElement;
+import ru.kinoday.front.cinema.model.Show;
 import ru.kinoday.front.common.exception.SendEmailException;
 import ru.kinoday.front.common.exception.UserAlreadyExistException;
 import ru.kinoday.front.common.exception.UserNotFoundException;
@@ -23,6 +27,8 @@ import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @AllArgsConstructor
