@@ -70,14 +70,11 @@ body {
 }
 
 .footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
+    position: relative;
     background-color: #050b24;
     width: 100%;
     min-width: 600px;
-    height: 17%;
-    max-height: 190px;
+    height: 180px;
 }
 
 .text {
@@ -91,7 +88,7 @@ body {
 .data {
     text-align: center;
     background-color: #18263c;
-    height: 80%;
+    min-height: 80%;
 }
 
 .container {
