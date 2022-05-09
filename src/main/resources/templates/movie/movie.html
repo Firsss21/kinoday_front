@@ -1,10 +1,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments/head" th:with="pageTitle='Фильмы'"></head>
+<head th:include="fragments/head" th:with="pageTitle='${movie.name}'"></head>
 <body>
 
 <div class="main"><header th:include="fragments/header"></header><div class="data">
-    <div class="container cntr" style="width: 70%" th:each="movie: ${movies}">
+    <div class="container cntr" th:object="${movie}">
         <h2 th:text="${movie.name}"></h2>
+        <h1 th:text="${movie.getYear()}"></h1>
         <span th:text="${movie.description}"></span>
     </div>
 </div><footer th:include="fragments/footer"></footer></div>

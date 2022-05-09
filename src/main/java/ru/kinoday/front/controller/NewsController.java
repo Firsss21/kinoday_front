@@ -18,7 +18,8 @@ public class NewsController {
 
     @GetMapping
     public String indexNews(Model m) {
-        m.addAttribute(newsService.getAllNews());
+        System.out.println(newsService.getAllNews());
+        m.addAttribute("news", newsService.getAllNews());
         return "news/feed";
     }
 

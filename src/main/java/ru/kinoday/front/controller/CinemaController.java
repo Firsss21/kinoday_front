@@ -19,7 +19,7 @@ public class CinemaController {
 
     @GetMapping
     public String index(Model m) {
-        m.addAttribute(cinemaService.getAllCinema());
+        m.addAttribute("cinemas", cinemaService.getAllCinema());
         return "cinema/all";
     }
 

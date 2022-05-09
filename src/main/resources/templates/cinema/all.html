@@ -1,0 +1,14 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head" th:with="pageTitle='Кинотеатры'"></head>
+<body>
+
+<div class="main"><header th:include="fragments/header"></header><div class="data">
+    <div class="container cntr" style="width: 70%" th:each="cinema: ${cinemas}">
+        <h2 th:text="${cinema.getName()}"></h2>
+        <h2 th:text="${cinema.getImagePath()}"></h2>
+        <span th:text="${cinema.getDescription()}"></span>
+    </div>
+</div><footer th:include="fragments/footer"></footer></div>
+
+</body>
+</html>

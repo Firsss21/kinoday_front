@@ -1,5 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments/head" th:with="pageTitle=*{password}"></head>
+<head th:include="fragments/head" th:with="pageTitle=${session.user.login}"></head>
 <body>
 
 <div class="main"><header th:include="fragments/header"></header><div class="data">

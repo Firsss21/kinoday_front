@@ -1,0 +1,15 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head" th:with="pageTitle='Расписание'"></head>
+<body>
+
+<div class="main"><header th:include="fragments/header"></header><div class="data">
+    <div class="container cntr" th:object="${schedule}">
+        <h2 th:text="${schedule.getCinemaId()}"></h2>
+        <h1 th:text="${schedule.getFromDate()}"></h1>
+        <h1 th:text="${schedule.getToDate()}"></h1>
+<!--        <span th:text="${schedule.description}"></span>-->
+    </div>
+</div><footer th:include="fragments/footer"></footer></div>
+
+</body>
+</html>
