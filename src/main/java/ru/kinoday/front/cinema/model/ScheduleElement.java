@@ -10,9 +10,10 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Data
 public class ScheduleElement {
-    Long id;
-    Timestamp time;
-    CinemaHall hall;
-    String format;
-    int price;
+    private Long id;
+    private Timestamp startTime;
+    private Timestamp endTime;
+    private CinemaHall hall;
+    private String format;
+    private int price;
 }

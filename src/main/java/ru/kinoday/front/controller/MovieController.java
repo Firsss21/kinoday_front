@@ -16,7 +16,7 @@ public class MovieController {
 
     private CinemaService cinemaService;
 
-    @GetMapping()
+    @GetMapping("/")
     public String index(Model m) {
         m.addAttribute("movies", cinemaService.getAllMovies());
         return "movie/all";

@@ -59,7 +59,7 @@ public class ScheduleRemoteService implements ScheduleService {
 
 
     private Schedule getSchedule(Timestamp from, long cinemaId) {
-//      to end of day
+//      to endTime of day
         return getSchedule(from, Timestamp.valueOf(from.toLocalDateTime().toLocalDate().atTime(23, 59,59)),cinemaId);
     }
 

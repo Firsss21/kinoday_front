@@ -156,3 +156,33 @@ body {
 .mauto {
     margin: auto;
 }
+
+.bl {
+    display: block;
+}
+
+.inbl {
+    display: inline-block;
+}
+
+.conHwer {
+}
+
+.conHwer:hover {
+    transform: scale(0.97);
+    transition: transform .5s ease, box-shadow .5s ease;
+}
+
+.movieRow{
+    display: inline-block;
+    margin: 5px;
+    width: 31%;
+    min-width: 30%;
+    max-width: 40%;
+}
+
+.mt10 {margin-top: 10px;}
+.mb10 {margin-bottom: 10px;}
+.m10 {margin: 10px;}
+.mtb10 {margin: 10px 0;}
+.mlr10 {margin: 0 10px;}

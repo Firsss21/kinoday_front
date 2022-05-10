@@ -3,9 +3,17 @@
 <body>
 
 <div class="main"><header th:include="fragments/header"></header><div class="data">
-    <div class="container cntr" style="width: 70%" th:each="movie: ${movies}">
-        <h2 th:text="${movie.name}"></h2>
-        <span th:text="${movie.description}"></span>
+    <div class="mtb10 inbl cntr" style="width: 60%;">
+            <div class="movieRow container cntr conHwer" th:each="movie, iter: ${movies}">
+                    <a title="Смотреть описание фильма" style="text-decoration: none;" th:href="@{/movie/{id}(id=${movie.getId()})}">
+                    <div style="height: 55px; vertical-align: middle; display: table-cell" >
+                        <h4 style="display: table-cell" th:text="${movie.getName()}"></h4>
+                    </div>
+                    <div style="width: 100%">
+                        <img style="width: 90%; display: initial;" th:src="${movie.getMainImagePath()}"/>
+                    </div>
+                    </a>
+            </div>
     </div>
 </div><footer th:include="fragments/footer"></footer></div>
 
