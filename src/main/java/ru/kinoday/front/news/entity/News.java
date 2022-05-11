@@ -16,6 +16,5 @@ public class News {
     private Long id;
     private String name;
     private String text;
-    private int views;
     private Date createDate;
 }
