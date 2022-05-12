@@ -3,11 +3,42 @@
 <body>
 
 <div class="main"><header th:include="fragments/header"></header><div class="data">
-    <div class="container cntr" th:object="${schedule}">
-        <h2 th:text="${schedule.getCinemaId()}"></h2>
-        <h1 th:text="${schedule.getFromDate()}"></h1>
-        <h1 th:text="${schedule.getToDate()}"></h1>
-<!--        <span th:text="${schedule.description}"></span>-->
+    <div class="container w90 left" style="height: 45px" th:object="${schedule}">
+        <div style="float: left">
+            <div class="conHwer inbl">
+                <a title="Смотреть расписание на сегодня" style="text-decoration: #c3c3c3 underline" th:href="@{/schedule/{id}/?plusDays=0(id=${schedule.getCinemaId()})}"><span th:if="${plusDays != 0}" th:text="Сегодня"></span></a>
+                <span th:if="${plusDays == 0}" class="dark" th:text="Сегодня"></span>
+            </div>
+            <div class="conHwer inbl">
+                <a title="Смотреть расписание на завтра" style="text-decoration: #c3c3c3 underline" th:href="@{/schedule/{id}/?plusDays=1(id=${schedule.getCinemaId()})}"><span th:if="${plusDays != 1}" th:text="Завтра"></span></a>
+                <span th:if="${plusDays == 1}" class="dark" th:text="Завтра"></span>
+            </div>
+
+        </div>
+        <div style="float: right">
+            <div class="inbl conHwer" th:each="cinema : ${cinemaList}">
+                <a title="Смотреть расписание в этом кинотеатре" th:if="${cinema.getId() != schedule.getCinemaId()}" th:href="@{/schedule/{id}/?plusDays={plusDays}(id=${cinema.getId()}, plusDays=${plusDays})}" style="text-decoration: #c3c3c3 underline;"><span th:text="${cinema.getName()}"></span></a>
+                <span th:text="${cinema.getName()}" style="color: white;" th:if="${cinema.getId() == schedule.getCinemaId()}"> </span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="container w90 left" th:each="entry : ${schedule.getData()}">
+        <div class="conHwer inbl w20 left" style="vertical-align: top;">
+            <a title="Перейти к описанию фильма" style="text-decoration: #c3c3c3 underline !important;" th:href="'/movie/' + ${entry.getKey().getId()}">
+                <span style="text-decoration: #c3c3c3 underline !important;color: white;font-weight: bold;" th:text="${entry.getKey().getName()}"></span><br>
+            </a>
+            <span class="dark" th:text="${entry.getKey().getRatingKp()}"></span>
+        </div>
+        <div class="conHwer inbl left" style="border-left: solid; padding: 0px 15px;" th:each="show : ${entry.getValue()}">
+            <a title="Перейти к сеансу" th:href="@{/schedule/show/{id}(id=${show.getId()})}">
+                <span th:text="${#dates.format(show.getStartTime(), 'hh:mm')}"></span><br>
+                <span th:text="${show.getHall().getName()}"></span><span class="dark"> зал</span><br>
+                <span th:text="${show.getPrice()}"></span><span class="dark"> руб</span><br>
+                <span th:text="${show.getFormat().getDescription()}"></span><br>
+            </a>
+        </div>
     </div>
 </div><footer th:include="fragments/footer"></footer></div>
 

@@ -19,11 +19,14 @@ import ru.kinoday.front.cinema.model.Show;
 public class ScheduleController {
 
     private ScheduleService scheduleService;
+    private CinemaService cinemaService;
 
     @GetMapping
     public String getDefaultSchedule(Model m) {
         Schedule schedule = scheduleService.getSchedule();
         m.addAttribute("schedule", schedule);
+        m.addAttribute("plusDays", 0);
+        m.addAttribute("cinemaList", cinemaService.getAllCinema());
         return "schedule/schedule";
     }
 
@@ -31,6 +34,8 @@ public class ScheduleController {
     public String getCinemaSchedule(@PathVariable long id, @RequestParam(name = "plusDays", defaultValue = "0") int plusDays, Model m) {
         Schedule schedule = scheduleService.getScheduleForAnotherDay(id, plusDays);
         m.addAttribute("schedule", schedule);
+        m.addAttribute("plusDays", plusDays);
+        m.addAttribute("cinemaList", cinemaService.getAllCinema());
         return "schedule/schedule";
     }
 

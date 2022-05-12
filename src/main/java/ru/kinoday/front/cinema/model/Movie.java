@@ -18,7 +18,6 @@ public class Movie {
     private Date added;
     private Long duration;
     private String director;
-    private String[] descriptionImages;
     private String trailer;
     private int ageRating;
     private float ratingKp;
