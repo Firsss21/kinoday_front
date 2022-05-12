@@ -3,9 +3,11 @@
 <body>
 
 <div class="main"><header th:include="fragments/header"></header><div class="data">
-    <div class="container cntr" style="width: 70%" th:each="story: ${news}">
-        <h2 th:text="${story.name}"></h2>
+    <div class="container conHwer feed" th:each="story: ${news}">
+        <h5 th:text="${story.name}"></h5>
         <span th:text="${story.text}"></span>
+        <br>
+        <span style="font-size: 12px; color: #737373" th:text="${#dates.format(story.getCreateDate, 'dd MMM yyyy')}"></span>
     </div>
 </div><footer th:include="fragments/footer"></footer></div>
 

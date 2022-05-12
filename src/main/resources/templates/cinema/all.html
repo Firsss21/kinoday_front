@@ -6,10 +6,10 @@
 
     <div th:each="cinema: ${cinemas}">
         <a title="Перейти к расписанию" style="text-decoration: none;" th:href="@{/schedule/{id}(id=${cinema.getId()})}">
-            <div class="container cntr conHwer" style="width: 60%">
+            <div class="container cntr conHwer" style="width: 40%; min-width: 40%">
                 <h4 class="bl" th:text="${cinema.getName()}"></h4>
-                <div style="width: 100%">
-                    <img style="width: 45%; display: initial;" th:src="${cinema.getImagePath()}"/>
+                <div class="mtb10" style="width: 100%">
+                    <img style="width: 80%; display: initial;" th:src="${cinema.getImagePath()}"/>
                 </div>
                 <span class="bl" style="margin-left: 30px; margin-right: 30px; text-align: left" th:text="${cinema.getDescription()}"></span>
             </div>

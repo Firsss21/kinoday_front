@@ -1,5 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments/head" th:with="pageTitle='${movie.name}'"></head>
+<head th:include="fragments/head" th:with="pageTitle=${movie.name}"></head>
 <body>
 
 <div class="main"><header th:include="fragments/header"></header><div class="data">

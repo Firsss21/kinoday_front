@@ -1,13 +1,45 @@
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments/head" th:with="pageTitle='${movie.name}'"></head>
+<head th:include="fragments/head" th:with="pageTitle=${movie.name}"></head>
 <body>
 
 <div class="main"><header th:include="fragments/header"></header><div class="data">
-    <div class="container cntr" th:object="${movie}">
-        <h2 th:text="${movie.name}"></h2>
-        <h1 th:text="${movie.getYear()}"></h1>
-        <span th:text="${movie.description}"></span>
+    <div class="container w70 conHwer" th:object="${movie}">
+        <div class="mt10"></div>
+        <div class="inbl cntr w48">
+            <img style="width: 90%; display: initial;" th:src="${movie.getMainImagePath()}"/>
+        </div>
+        <div class="inbl left w48" style="vertical-align: top">
+            <h3 th:text="${movie.name}"></h3>
+            <span style="font-size: 17px" th:text="${movie.getDescription()}"></span><br>
+            <div style="margin-bottom: 25px"></div>
+            <div th:if="${movie.getRatingKp()} > 0"><span class="dark">Рейтинг Кинопоиск: </span><span th:text="${movie.getRatingKp()}"></span><br></div>
+            <div th:if="${movie.getRatingImdb()} > 0"><span class="dark">Рейтинг IMDB: </span><span th:text="${movie.getRatingImdb()}"></span><br></div>
+            <span class="dark">Год выпуска: </span><span th:text="${movie.getYear()}"></span><br>
+            <span class="dark">Длительность: </span><span th:text="${duration}"></span><br>
+            <span class="dark">Ограничение: </span><span th:text="${movie.getAgeRating()}"></span><br>
+            <span class="dark">Страна: </span><span th:text="${movie.getCountry()}"></span><br>
+            <span class="dark">Жанр: </span><span th:text="${movie.getGenre().getDescription()}"></span><br>
+            <span class="dark">Режиссер: </span><span th:text="${movie.getDirector()}"></span><br>
+        </div>
+    <div class="mt10"></div>
     </div>
+    <div th:if="${movie.getTrailer()} != null">
+        <div th:if="${movie.getTrailer()} != ''">
+            <div class="mb10"></div>
+            <iframe class="mtb10" width="100%" height="500" th:src="${movie.getTrailer()}"
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen">
+            </iframe>
+        </div>
+    </div>
+
+<!--    <div class="container w70 conHwer">-->
+<!--        <div class="mtb10 cntr">-->
+<!--            <h4 style="color: white">Трейлер</h4>-->
+<!--        </div>-->
+<!--        <iframe class="mtb10" width="95%" height="400" src="https://www.youtube.com/embed/TODt_q-_4C4"-->
+<!--                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen">-->
+<!--        </iframe>-->
+<!--    </div>-->
 </div><footer th:include="fragments/footer"></footer></div>
 
 </body>

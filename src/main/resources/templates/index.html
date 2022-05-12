@@ -10,13 +10,15 @@
     <div class="container" th:if="${not #lists.isEmpty(cinema)}" style="display: inline-block; width: 45%">
         hi eptahgfh
     </div>
-    <div class="container cntr" style="width: 70%" th:if="${not #lists.isEmpty(news)}">
-        <tr th:each="story: ${news}">
-            <td th:text="${story.name}" />
-            <td th:text="${story.text}" />
-        </tr>
+
+    <div class="cntr mt10" style="width: 100%;">
+        <div class="w90 mauto" th:if="${not #lists.isEmpty(news)}">
+            <a href="/news/"><div class="container conHwer inbl w30 left mlr10" style="vertical-align: top" th:each="story: ${news}">
+                <h5 th:text="${story.name}"></h5>
+                <span th:text="${story.text}"></span>
+            </div></a>
+        </div>
     </div>
 </div><footer th:include="fragments/footer"></footer></div>
-
 </body>
 </html>

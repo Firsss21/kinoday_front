@@ -1,6 +1,8 @@
 package ru.kinoday.front.cinema.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 
 import java.util.Date;
 
@@ -10,7 +12,7 @@ public class Movie {
     private String name;
     private String description;
     private String mainImagePath;
-    private String genre;
+    private Genre genre;
     private String country;
     private String year;
     private Date added;
@@ -19,5 +21,25 @@ public class Movie {
     private String[] descriptionImages;
     private String trailer;
     private int ageRating;
-    private int kinopoiskId;
+    private float ratingKp;
+    private float ratingImdb;
+}
+
+@AllArgsConstructor
+@Getter
+enum Genre {
+    DRAMA("Драма"),
+    TRILLER("Триллер"),
+    FANTASY("Фэнтези"),
+    ROMANCE("Мелодрама"),
+    ACTION("Экшн"),
+    CRIME("Криминал"),
+    HISTORICAL("Исторический"),
+    HORROR("Ужастик"),
+    SCIENCE("Научный"),
+    ANIMATION("Мультфильм"),
+    WESTERN("Вестерн"),
+    ;
+
+    private final String description;
 }
