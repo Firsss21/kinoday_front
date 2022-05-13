@@ -18,6 +18,7 @@ public class ScheduleElement {
     private CinemaHall hall;
     private Format format;
     private int price;
+    private boolean started;
 }
 
 @AllArgsConstructor

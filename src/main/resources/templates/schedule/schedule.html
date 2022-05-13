@@ -13,6 +13,10 @@
                 <a title="Смотреть расписание на завтра" style="text-decoration: #c3c3c3 underline" th:href="@{/schedule/{id}/?plusDays=1(id=${schedule.getCinemaId()})}"><span th:if="${plusDays != 1}" th:text="Завтра"></span></a>
                 <span th:if="${plusDays == 1}" class="dark" th:text="Завтра"></span>
             </div>
+            <div class="conHwer inbl">
+                <a title="Смотреть расписание на послезавтра" style="text-decoration: #c3c3c3 underline" th:href="@{/schedule/{id}/?plusDays=2(id=${schedule.getCinemaId()})}"><span th:if="${plusDays != 2}" th:text="Послезавтра"></span></a>
+                <span th:if="${plusDays == 2}" class="dark" th:text="Послезавтра"></span>
+            </div>
 
         </div>
         <div style="float: right">

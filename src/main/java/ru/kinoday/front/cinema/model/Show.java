@@ -11,5 +11,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class Show {
     private Map<Integer, Map<Integer, TicketPlace>> places;
+    private Long cinemaId;
     private ScheduleElement scheduleElement;
+    private Movie movie;
 }

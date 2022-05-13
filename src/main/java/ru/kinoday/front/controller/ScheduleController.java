@@ -1,7 +1,6 @@
 package ru.kinoday.front.controller;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,6 +42,7 @@ public class ScheduleController {
     public String getShow(@PathVariable long id, Model m) {
         Show show = scheduleService.getShow(id);
         m.addAttribute("show", show);
+        m.addAttribute("cinema", cinemaService.getCinemaById(show.getCinemaId()));
         return "schedule/show";
     }
 }

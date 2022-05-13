@@ -1,13 +1,96 @@
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments/head" th:with="pageTitle=${movie.name}"></head>
+<head th:include="fragments/head" th:with="pageTitle=${show.getMovie().getName()}"></head>
 <body>
 
 <div class="main"><header th:include="fragments/header"></header><div class="data">
-    <div class="container cntr" th:object="${show}">
-<!--        <h2 th:text="${show.get}"></h2>-->
-<!--        <h1 th:text="${movie.getYear()}"></h1>-->
-<!--        <span th:text="${movie.description}"></span>-->
+    <div class="container conHwer cntr">
+        <h4 style="color: white" th:text="${show.getMovie().getName()}"></h4>
+        <span class="dark" th:text="${#dates.format(show.getScheduleElement().getStartTime(), 'dd MMM hh:mm') + ', '}"></span>
+        <span class="dark" th:text="${show.getScheduleElement().getHall().getName()} + ' зал, '"></span>
+        <span class="dark" th:text="${cinema.getName()} + ', '"></span>
+        <span class="dark" th:text="'в формате ' + ${show.getScheduleElement().getFormat().getDescription()}"></span>
+
     </div>
+    <div class="container cntr" th:object="${show}">
+        <table class="showTable cntr mauto">
+            <tr class="" th:each="row : ${show.getPlaces()}">
+                <td class="" th:text="${row.getKey()}"></td>
+                <td class="" th:each="seat : ${row.getValue()}">
+                    <input style="display: none" class="form-check-input" th:if="${seat.getValue().isCanOrder() == false}" type="checkbox" checked="checked" disabled/>
+                    <input style="display: none"  th:id="${row.getKey()} + '_' + ${seat.getKey()}" class="form-check-input" th:if="${seat.getValue().isCanOrder() == true}" type="checkbox"/>
+                    <label th:for="${row.getKey()} + '_' + ${seat.getKey()}" th:text="${seat.getKey()}" th:onclick="'handleClick(' + ${row.getKey()} + ',' + ${seat.getKey()} + ')'" onclick="handleClick(this)"></label>
+                </td>
+                <td class=""  th:text="${row.getKey()}"></td>
+            </tr>
+        </table>
+    </div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    show = false;
+
+    tickets = [];
+    var container;
+
+    function handleClick(y,x) {
+        container = document.getElementById("price");
+        addTicket(y, x);
+    }
+
+    Array.prototype.indexOfForArrays = function(search)
+    {
+        var searchJson = JSON.stringify(search); // "[3,566,23,79]"
+        var arrJson = this.map(JSON.stringify); // ["[2,6,89,45]", "[3,566,23,79]", "[434,677,9,23]"]
+        return arrJson.indexOf(searchJson);
+    };
+
+    function addTicket(y, x) {
+        var i = tickets.indexOfForArrays([y,x]);
+        if (i >= 0){
+            tickets.splice(i,1);
+        } else {
+            tickets.push([y,x]);
+        }
+        render();
+    }
+
+    function checkShow() {
+        if (!show) {
+            container.setAttribute("style", "display: block");
+            show = true;
+        }
+        else if (tickets.length == 0) {
+            container.setAttribute("style", "display: none");
+            show = false;
+        }
+
+    }
+
+    function render() {
+        checkShow();
+        var str = "";
+        var price = 0;
+        for (i = 0; i < tickets.length; i++) {
+            var ticket = tickets[i];
+            price += [[${show.getScheduleElement().getPrice()}]];
+            var str = str + (i == 0 ? "Ряд " : "ряд ") + ticket[0] + ", место " + ticket[1]  + (i == tickets.length - 1 ? " " : ", ");
+        }
+        var textContainer = document.getElementById("buy_text");
+        textContainer.innerText = str;
+
+        var buttonContainer = document.getElementById("buy_button");
+        buttonContainer.innerText = "Оплатить " + price + " руб";
+    }
+    /*]]>*/
+</script>
+
+    <div class="container" style="display: none" id="price">
+        <h3 style="color: white" id="buy_text"></h3>
+        <button type=submit id="buy_button" class="mauto btn btn-outline-success btn-block" th:text="'Купить'"></button>
+    </div>
+
+
 </div><footer th:include="fragments/footer"></footer></div>
 
 </body>

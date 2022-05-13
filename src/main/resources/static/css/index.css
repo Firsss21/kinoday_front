@@ -226,3 +226,63 @@ body {
 .darkness {
     color: #505050
 }
+
+.showTable {
+
+}
+
+.showTable tr {
+
+}
+
+.showTable td {
+    padding: 6px 3px;
+}
+
+.showTable input {
+    border-radius: 0.3em;
+    background-image: none;
+    border: none;
+}
+
+
+.showTable input:checked[type=checkbox] {
+    background-color: #ff0000;
+    border-color: #ff0000;
+    background-image: none;
+}
+
+.showTable input:disabled {
+    background-color: #6c6c6c;
+}
+
+.showTable label {
+    color: #b9b9b9;
+    display: block;
+    background-color: #fff;
+    border-radius: 0.3em;
+    width: 16px;
+    height: 16px;
+    font-size: 13px;
+
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    font-size: 15px;
+}
+
+.showTable label:hover {
+    color: black;
+    cursor: pointer;
+}
+
+.showTable input:checked ~ label {
+    background-color: #ff0000;
+    color: black;
+}
+
+.showTable input:disabled ~ label {
+    background-color: #6c6c6c;
+    color: black;
+}
+
