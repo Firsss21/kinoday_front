@@ -1,8 +1,6 @@
 package ru.kinoday.front.cinema.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -25,5 +23,17 @@ public class Place {
 
     public int getPlace() {
         return placeId.getPlace();
+    }
+
+    public Place(int row, int place) {
+        this.placeId = new PlaceId(row, place);
+    }
+
+    @Override
+    public String toString() {
+        return "Place{" +
+                "row=" + placeId.getRow() + ", " +
+                "place=" + placeId.getPlace() +
+                '}';
     }
 }

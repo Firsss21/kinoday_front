@@ -3,28 +3,33 @@
 <body>
 
 <div class="main"><header th:include="fragments/header"></header><div class="data">
-    <div class="container conHwer cntr">
-        <h4 style="color: white" th:text="${show.getMovie().getName()}"></h4>
-        <span class="dark" th:text="${#dates.format(show.getScheduleElement().getStartTime(), 'dd MMM hh:mm') + ', '}"></span>
-        <span class="dark" th:text="${show.getScheduleElement().getHall().getName()} + ' зал, '"></span>
-        <span class="dark" th:text="${cinema.getName()} + ', '"></span>
-        <span class="dark" th:text="'в формате ' + ${show.getScheduleElement().getFormat().getDescription()}"></span>
 
-    </div>
-    <div class="container cntr" th:object="${show}">
-        <table class="showTable cntr mauto">
-            <tr class="" th:each="row : ${show.getPlaces()}">
-                <td class="" th:text="${row.getKey()}"></td>
-                <td class="" th:each="seat : ${row.getValue()}">
-                    <input style="display: none" class="form-check-input" th:if="${seat.getValue().isCanOrder() == false}" type="checkbox" checked="checked" disabled/>
-                    <input style="display: none"  th:id="${row.getKey()} + '_' + ${seat.getKey()}" class="form-check-input" th:if="${seat.getValue().isCanOrder() == true}" type="checkbox"/>
-                    <label th:for="${row.getKey()} + '_' + ${seat.getKey()}" th:text="${seat.getKey()}" th:onclick="'handleClick(' + ${row.getKey()} + ',' + ${seat.getKey()} + ')'" onclick="handleClick(this)"></label>
-                </td>
-                <td class=""  th:text="${row.getKey()}"></td>
-            </tr>
-        </table>
-    </div>
+    <p class="text-danger" style="margin-top: 15px;" th:if="${error} != null" th:text="${error}">Validation error</p>
+    <p class="text-danger" style="margin-top: 15px;" th:each="error : ${#fields.allErrors()}" th:text="${error}">Validation error</p>
 
+    <form th:object="${order}" th:action="@{/schedule/order/{id}(id=${show.getScheduleElement().getId()})}" method="post">
+        <input type="hidden" th:attr="name='scheduleId'" th:value="${show.getScheduleElement().getId()}"/>
+        <div class="container conHwer cntr">
+            <h4 style="color: white" th:text="${show.getMovie().getName()}"></h4>
+            <span class="dark" th:text="${#dates.format(show.getScheduleElement().getStartTime(), 'dd MMM hh:mm') + ', '}"></span>
+            <span class="dark" th:text="${show.getScheduleElement().getHall().getName()} + ' зал, '"></span>
+            <span class="dark" th:text="${cinema.getName()} + ', '"></span>
+            <span class="dark" th:text="'в формате ' + ${show.getScheduleElement().getFormat().getDescription()}"></span>
+
+        </div>
+        <div class="container cntr">
+            <table class="showTable cntr mauto">
+                <tr class="" th:each="row : ${show.getPlaces()}">
+                    <td class="" th:text="${row.getKey()}"></td>
+                    <td class="" th:each="seat, itemStat : ${row.getValue()}">
+                        <input style="display: none" th:id="${row.getKey()} + '_' + ${seat.getKey()}"  class="form-check-input" th:if="${seat.getValue().isCanOrder() == false}" type="checkbox" disabled/>
+                        <input style="display: none" th:id="${row.getKey()} + '_' + ${seat.getKey()}" class="form-check-input" th:if="${seat.getValue().isCanOrder() == true}" th:field="*{tickets}" name="tickets" th:value="${row.getKey() + '_' + seat.getKey()}" type="checkbox"/>
+                        <label th:for="${row.getKey()} + '_' + ${seat.getKey()}" th:text="${seat.getKey()}" th:onclick="'handleClick(' + ${row.getKey()} + ',' + ${seat.getKey()} + ')'" onclick="handleClick(this)"></label>
+                    </td>
+                    <td class=""  th:text="${row.getKey()}"></td>
+                </tr>
+            </table>
+        </div>
 <script th:inline="javascript">
     /*<![CDATA[*/
 
@@ -35,7 +40,9 @@
 
     function handleClick(y,x) {
         container = document.getElementById("price");
-        addTicket(y, x);
+
+        if (!document.getElementById(y + "_" + x).disabled)
+            addTicket(y, x);
     }
 
     Array.prototype.indexOfForArrays = function(search)
@@ -87,8 +94,11 @@
 
     <div class="container" style="display: none" id="price">
         <h3 style="color: white" id="buy_text"></h3>
-        <button type=submit id="buy_button" class="mauto btn btn-outline-success btn-block" th:text="'Купить'"></button>
+        <input id="agreement" type="checkbox" th:field="*{agreementAccepted}" required/>
+        <label for="agreement">Согласны с правилами?</label><br>
+        <button type="submit" id="buy_button" class="mauto btn btn-outline-success btn-block" th:text="'Купить'"></button>
     </div>
+    </form>
 
 
 </div><footer th:include="fragments/footer"></footer></div>

@@ -1,8 +1,13 @@
 package ru.kinoday.front.common.util;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -11,7 +16,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import ru.kinoday.front.cinema.model.Place;
+import ru.kinoday.front.cinema.model.TicketPlace;
+import ru.kinoday.front.order.entity.Order;
 
+import java.io.ObjectInputStream;
 import java.util.Arrays;
 import java.util.Properties;
 
@@ -62,3 +72,22 @@ public class Util {
     }
 
 }
+class StringToPlaceConverter
+        implements Converter<String, Place> {
+
+    @Override
+    public Place convert(String from) {
+        String[] splitted = from.split("_");
+        return new Place(Integer.valueOf(splitted[0]), Integer.valueOf(splitted[1]));
+    }
+}
+
+@Configuration
+class WebConfig implements WebMvcConfigurer {
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(new StringToPlaceConverter());
+    }
+}
+

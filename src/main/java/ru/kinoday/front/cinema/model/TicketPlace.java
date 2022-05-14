@@ -1,5 +1,6 @@
 package ru.kinoday.front.cinema.model;
 
+import com.google.gson.Gson;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

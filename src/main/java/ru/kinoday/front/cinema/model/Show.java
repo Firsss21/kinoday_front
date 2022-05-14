@@ -14,4 +14,8 @@ public class Show {
     private Long cinemaId;
     private ScheduleElement scheduleElement;
     private Movie movie;
+
+    public TicketPlace getTicketPlace(Place place) {
+        return places.get(place.getRow()).get(place.getPlace());
+    }
 }
