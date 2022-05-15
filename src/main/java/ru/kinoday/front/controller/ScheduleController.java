@@ -3,6 +3,7 @@ package ru.kinoday.front.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.session.InvalidSessionAccessDeniedHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,6 +12,8 @@ import ru.kinoday.front.cinema.CinemaService;
 import ru.kinoday.front.cinema.ScheduleService;
 import ru.kinoday.front.cinema.model.Schedule;
 import ru.kinoday.front.cinema.model.Show;
+import ru.kinoday.front.common.model.User;
+import ru.kinoday.front.common.validation.ValidEmail;
 import ru.kinoday.front.order.entity.Order;
 import ru.kinoday.front.order.service.OrderService;
 
@@ -24,7 +27,6 @@ public class ScheduleController {
 
 
     private OrderService orderService;
-    private ObjectFactory<HttpSession> httpSessionFactory;
     private ScheduleService scheduleService;
     private CinemaService cinemaService;
 
@@ -60,15 +62,17 @@ public class ScheduleController {
 
     @PostMapping("/order/{scheduleId}")
     public String newOrder(@Valid @ModelAttribute("order") Order order,
+                           @RequestParam(required = false, name = "email", defaultValue = "default") String email,
                            BindingResult result,
                            @PathVariable int scheduleId,
-                           Model m
+                           Model m,
+                           HttpSession session
     ) {
-        System.out.println(order);
-
         if (result.hasErrors()) {
             Show show = scheduleService.getShow(scheduleId);
-            m.addAttribute("error", result.getAllErrors().get(0).getDefaultMessage());
+            if (!result.getAllErrors().isEmpty()) {
+                m.addAttribute("error", result.getAllErrors().get(0));
+            }
             m.addAttribute("show", show);
             m.addAttribute("order", order);
             m.addAttribute("cinema", cinemaService.getCinemaById(show.getCinemaId()));
@@ -77,22 +81,40 @@ public class ScheduleController {
 
         boolean canOrder = orderService.checkOrder(order);
         if (!canOrder) {
-            System.out.println("cant order");
             return "redirect:/schedule/show/{scheduleId}";
         }
 
-        System.out.println("success ");
-        HttpSession session = httpSessionFactory.getObject();
+        Object user = session.getAttribute("user");
 
-        System.out.println(session);
+        if (user instanceof User){
+            // send to payment
+            User userData = (User) user;
+            return sendToPayment(order, userData.getEmail());
+        } else {
 
-        session.getAttributeNames().asIterator().forEachRemaining(System.out::println);
+            if (!email.equals("default"))
+                return sendToPayment(order, email);
 
-        return "redirect:/schedule/show/{scheduleId}";
+            // send to form without user login for post email
+            return orderWithoutEmail(order, m);
+        }
+    }
 
-        // scheduleId
-        // places
+    private String orderWithoutEmail(Order order, Model m) {
+        Show show = scheduleService.getShow(order.getScheduleId());
+        m.addAttribute("show", show);
+        m.addAttribute("order", order);
+        m.addAttribute("price", order.getTickets().size() * show.getScheduleElement().getPrice());
+        m.addAttribute("cinema", cinemaService.getCinemaById(show.getCinemaId()));
+        return "/order/withoutEmail";
+    }
 
-        // agreement
+    private String sendToPayment(Order order, String email) {
+        if (orderService.checkOrder(order)) {
+            return orderService.paymentRequest(order, email);
+//            return "redirect:https://google.com";
+        } else {
+            return "redirect:/schedule/";
+        }
     }
 }

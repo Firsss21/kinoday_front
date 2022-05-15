@@ -1,0 +1,34 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head" th:with="pageTitle='Купить билет'"></head>
+<body>
+
+<div class="main"><header th:include="fragments/header"></header><div class="data">
+    <div class="w40 container conHwer cntr">
+        <h4 style="color: white" th:text="${show.getMovie().getName()}"></h4>
+        <span class="dark" th:text="${#dates.format(show.getScheduleElement().getStartTime(), 'dd MMM hh:mm') + ', '}"></span>
+        <span class="dark" th:text="${show.getScheduleElement().getHall().getName()} + ' зал, '"></span>
+        <span class="dark" th:text="${cinema.getName()} + ', '"></span>
+        <span class="dark" th:text="'в формате ' + ${show.getScheduleElement().getFormat().getDescription()}"></span>
+    </div>
+    <div class="w40 container conHwer cntr">
+        <h4 class="dark">Билеты:</h4>
+        <span class="bl" style="color: white" th:each="ticket : ${order.getTickets()}" th:text="${'Ряд: ' + ticket.getRow() + ', место: ' + ticket.getPlace()}"></span>
+    </div>
+    <div class="w40 container cntr">
+        <div class="mauto">
+            <form action="#" class="login" th:action="@{/schedule/order/{id}(id=${show.getScheduleElement().getId()})}" th:object="${order}"  method="GET">
+                <h4 class="bl" style="margin-bottom: 20px">Введите почту</h4>
+                <h5 class="bl dark">На этот почтовый адрес придут оплаченые билеты</h5>
+                <p class="bl darkness">Или зарегистрируйтесь и билеты окажутся в вашем профиле</p>
+                <p>
+                    <input type="email" name="email" th:value="email" class="mauto form-control" placeholder="email" required>
+                </p>
+                <button class="mauto btn btn-outline-success btn-block" type="submit" value="submit" th:text="'Оплатить ' + ${price} + ' руб'"></button>
+                <a class="mauto btn btn-outline-secondary btn-block"    th:href="@{/signup}">Зарегистрироваться</a>
+            </form>
+        </div>
+    </div>
+</div><footer th:include="fragments/footer"></footer></div>
+
+</body>
+</html>

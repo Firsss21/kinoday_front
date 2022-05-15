@@ -48,8 +48,14 @@ public class SessionFilter extends OncePerRequestFilter {
             User principal = (User) securityContext.getAuthentication().getPrincipal();
             String userCredentialMail = principal.getUsername();
             ru.kinoday.front.common.model.User userData = userService.findUserByEmail(userCredentialMail);
-            if (userData != null)
+            if (userData != null) {
+                String ip = userData.getIp();
+                if (ip == null || ip == "" || ip != req.getRemoteAddr()){
+                    userData.setIp(req.getRemoteAddr());
+                    userService.update(userData);
+                }
                 req.getSession().setAttribute("user", userData);
+            }
         } else {
 
         }

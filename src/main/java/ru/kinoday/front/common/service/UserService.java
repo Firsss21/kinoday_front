@@ -25,13 +25,13 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class UserService {
 
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
-    MailService emailService;
+    private MailService emailService;
 
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
-    PasswordResetTokenRepository tokenRepo;
+    private PasswordResetTokenRepository tokenRepo;
 
     public User registerNewUserAccount(UserDTO userDto) throws UserAlreadyExistException {
         if (emailExist(userDto.getEmail())) {
@@ -81,5 +81,9 @@ public class UserService {
 
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email).orElse(null);
+    }
+
+    public void update(User userData) {
+        userRepository.save(userData);
     }
 }

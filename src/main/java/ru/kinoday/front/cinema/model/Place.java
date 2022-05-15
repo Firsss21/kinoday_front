@@ -29,11 +29,11 @@ public class Place {
         this.placeId = new PlaceId(row, place);
     }
 
-    @Override
-    public String toString() {
-        return "Place{" +
-                "row=" + placeId.getRow() + ", " +
-                "place=" + placeId.getPlace() +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Place{" +
+//                "row=" + placeId.getRow() + ", " +
+//                "place=" + placeId.getPlace() +
+//                '}';
+//    }
 }

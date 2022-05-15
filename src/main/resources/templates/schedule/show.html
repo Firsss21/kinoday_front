@@ -95,7 +95,7 @@
     <div class="container" style="display: none" id="price">
         <h3 style="color: white" id="buy_text"></h3>
         <input id="agreement" type="checkbox" th:field="*{agreementAccepted}" required/>
-        <label for="agreement">Согласны с правилами?</label><br>
+        <label for="agreement">Я согласен с условиями <a href="/rules">пользовательского соглашения</a></label><br>
         <button type="submit" id="buy_button" class="mauto btn btn-outline-success btn-block" th:text="'Купить'"></button>
     </div>
     </form>

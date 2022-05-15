@@ -122,4 +122,9 @@ public class IndexController {
         }
     }
 
+    @GetMapping("/rules")
+    public String getRules() {
+        return "/info/rules";
+    }
+
 }

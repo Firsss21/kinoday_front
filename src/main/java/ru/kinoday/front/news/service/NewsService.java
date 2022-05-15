@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import ru.kinoday.front.news.entity.News;
 import ru.kinoday.front.news.entity.NewsList;
@@ -29,19 +30,32 @@ public class NewsService {
     RestTemplate restTemplate;
 
     public List<News> getAllNews() {
-        ResponseEntity<News[]> response = restTemplate.getForEntity(hostAddress + path, News[].class);
-        if (response.getStatusCode().is2xxSuccessful()) {
-            return Arrays.stream(response.getBody()).collect(Collectors.toList());
-        } else {
+
+        try {
+            ResponseEntity<News[]> response = restTemplate.getForEntity(hostAddress + path, News[].class);
+            if (response.getStatusCode().is2xxSuccessful()) {
+                return Arrays.stream(response.getBody()).collect(Collectors.toList());
+            } else {
+                return new ArrayList<>();
+            }
+        } catch (RestClientException e) {
+            e.printStackTrace();
+        } finally {
             return new ArrayList<>();
         }
     }
 
     public List<News> getLastNews(int count) {
-        ResponseEntity<News[]> response = restTemplate.getForEntity(hostAddress + path + "last/?count=" + count, News[].class);
-        if (response.getStatusCode().is2xxSuccessful()) {
-            return Arrays.stream(response.getBody()).collect(Collectors.toList());
-        } else {
+        try {
+            ResponseEntity<News[]> response = restTemplate.getForEntity(hostAddress + path + "last/?count=" + count, News[].class);
+            if (response.getStatusCode().is2xxSuccessful()) {
+                return Arrays.stream(response.getBody()).collect(Collectors.toList());
+            } else {
+                return new ArrayList<>();
+            }
+        } catch (RestClientException e) {
+            e.printStackTrace();
+        } finally {
             return new ArrayList<>();
         }
     }

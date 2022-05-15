@@ -20,15 +20,18 @@ import java.util.Map;
 @Service
 public class ScheduleRemoteService implements ScheduleService {
 
-    @Autowired
-    private CinemaService cinemaService;
-    @Autowired
-    private RestTemplate restTemplate;
+    private final CinemaService cinemaService;
+    private final RestTemplate restTemplate;
 
     @Value("${service.cinema.uri}")
     private String hostAddress;
 
     private final String pathSchedule = "/schedule/";
+
+    public ScheduleRemoteService(CinemaService cinemaService, RestTemplate restTemplate) {
+        this.cinemaService = cinemaService;
+        this.restTemplate = restTemplate;
+    }
 
     @Override
     public Schedule getScheduleToday(Long cinemaId) {
