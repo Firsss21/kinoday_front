@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import ru.kinoday.front.common.model.Permission;
 
 @Configuration
 @EnableWebSecurity
@@ -40,12 +41,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//                .antMatchers("/admin/**").hasRole("ADMIN")
         http
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/profile").authenticated()
-                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/admin/**").hasAuthority(Permission.WORKER_WRITE.getPermission())
                 .and()
                 .formLogin()
                 .defaultSuccessUrl("/")

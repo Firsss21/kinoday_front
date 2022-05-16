@@ -30,7 +30,6 @@ public class ProfileController {
     public String index(Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
         List<Ticket> tickets = orderService.getTicketByEmail(user.getEmail());
-        System.out.println(tickets);
         model.addAttribute("user", user.getProfileDTO());
         model.addAttribute("tickets", tickets);
         return "user/profile";
@@ -39,7 +38,6 @@ public class ProfileController {
     @PostMapping
     public String updateProfile(@ModelAttribute("user") @Valid ProfileDTO profileDTO, BindingResult result, Model model, HttpSession session) {
 
-        System.out.println(profileDTO);
         if (result.hasErrors()) {
             model.addAllAttributes(result.getAllErrors());
             return "user/profile";

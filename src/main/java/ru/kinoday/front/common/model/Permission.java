@@ -1,8 +1,8 @@
 package ru.kinoday.front.common.model;
 
 public enum Permission {
-    WORKER_WRITE("worker:read"),
-    WORKER_READ("worker:write");
+    WORKER_WRITE("worker:write"),
+    WORKER_READ("worker:read");
 
     private final String permission;
 

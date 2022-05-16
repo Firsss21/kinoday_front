@@ -45,9 +45,14 @@ public class SessionFilter extends OncePerRequestFilter {
 
         if (req.getSession().getAttribute("SPRING_SECURITY_CONTEXT") != null) {
             SecurityContext securityContext = (SecurityContext) req.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
-            User principal = (User) securityContext.getAuthentication().getPrincipal();
-            String userCredentialMail = principal.getUsername();
-            ru.kinoday.front.common.model.User userData = userService.findUserByEmail(userCredentialMail);
+            ru.kinoday.front.common.model.User userData = null;
+            if (securityContext.getAuthentication().getPrincipal() instanceof User) {
+                User principal = (User) securityContext.getAuthentication().getPrincipal();
+                String userCredentialMail = principal.getUsername();
+                userData = userService.findUserByEmail(userCredentialMail);
+            } else {
+                userData = (ru.kinoday.front.common.model.User) securityContext.getAuthentication().getPrincipal();
+            }
             if (userData != null) {
                 String ip = userData.getIp();
                 if (ip == null || ip == "" || ip != req.getRemoteAddr()){

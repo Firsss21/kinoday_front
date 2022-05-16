@@ -12,7 +12,7 @@
             <ul>
                 <li><a class="link" href="/news/">Новости</a></li>
                 <li><a style="margin-left: 70%; margin-right: 10%" class="link" href="/rules">Правила</a></li>
-                <li><a style="margin-left: 70%; margin-right: 10%" class="link" href="/admin/">Администратору</a></li>
+                <li><a sec:authorize="hasAuthority('worker:write')" style="margin-left: 70%; margin-right: 10%" class="link" href="/admin/">Администратору</a></li>
             </ul>
         </div>
         <div class="inbl" style="width: inherit">

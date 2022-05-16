@@ -33,7 +33,7 @@
             <a title="Перейти к описанию фильма" style="text-decoration: #c3c3c3 underline !important;" th:href="'/movie/' + ${entry.getKey().getId()}">
                 <span style="text-decoration: #c3c3c3 underline !important;color: white;font-weight: bold;" th:text="${entry.getKey().getName()}"></span><br>
             </a>
-            <span class="dark" th:text="${entry.getKey().getRatingKp()}"></span>
+            <span class="dark"  th:if="${entry.getKey().getRatingKp()} > 0" th:text="${entry.getKey().getRatingKp()}"></span>
         </div>
         <div class="conHwer inbl left" style="border-left: solid; padding: 0px 15px;" th:each="show : ${entry.getValue()}">
             <a th:if="${!show.isStarted()}" title="Перейти к сеансу" th:href="@{/schedule/show/{id}(id=${show.getId()})}">

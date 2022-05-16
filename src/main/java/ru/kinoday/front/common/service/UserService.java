@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.kinoday.front.common.exception.UserAlreadyExistException;
@@ -18,10 +19,7 @@ import ru.kinoday.front.common.validation.dto.UserDTO;
 import ru.kinoday.front.order.entity.Ticket;
 import ru.kinoday.front.order.service.OrderService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -100,7 +98,7 @@ public class UserService {
         u.setEmail(profileDTO.getEmail());
         u.setLogin(profileDTO.getLogin());
 
-        if (profileDTO.getPassword().equals(profileDTO.getMatchingPassword()) && !passwordEncoder.encode(profileDTO.getPassword()).equals(u.getPassword())){
+        if (profileDTO.getPassword() != "" && profileDTO.getPassword().equals(profileDTO.getMatchingPassword()) && !passwordEncoder.encode(profileDTO.getPassword()).equals(u.getPassword())){
             u.setPassword(passwordEncoder.encode(profileDTO.getPassword()));
         }
 
@@ -110,6 +108,13 @@ public class UserService {
             u.setRole(Role.USER);
 
         userRepository.save(u);
+
+        List<Permission> privileges = new ArrayList<>(u.getRole().getPermissions());
+        List<GrantedAuthority> authorities = privileges.stream()
+                .map(p -> new SimpleGrantedAuthority(p.getPermission()))
+                .collect(Collectors.toList());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(u, null, authorities);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         return u;
     }
 
