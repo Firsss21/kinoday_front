@@ -53,9 +53,9 @@ public class OrderService {
         return true;
     }
 
-    public String paymentRequest(Order order, String email) {
+    public String paymentRequest(Order order, String email, long uid) {
         List<Ticket> tickets = orderNewTickets(order, email);
-        return getPaymentLink(tickets);
+        return getPaymentLink(tickets, uid);
     }
 
     private List<Ticket> orderNewTickets(Order order, String email) {
@@ -87,15 +87,18 @@ public class OrderService {
         // return this tickets
     }
 
-    public String getPaymentLink(List<Ticket> tickets) {
+    public String getPaymentLink(List<Ticket> tickets, long uid) {
         if (tickets.isEmpty())
             return "redirect:/profile";
         String urlTemplate = UriComponentsBuilder.fromHttpUrl(hostAddress + path + "pay")
                 .queryParam("ticketIds", "{ticketIds}")
+                .queryParam("uid", "{uid}")
                 .encode()
                 .toUriString();
 
-        Map<String, Object[]> variables = Map.of("ticketIds", tickets.stream().map(Ticket::getId).distinct().toArray());
+        String s = Arrays.toString(tickets.stream().map(Ticket::getId).distinct().toArray());
+        s = s.substring(1, s.length() - 1);
+        Map<String, String> variables = Map.of("ticketIds", s, "uid", String.valueOf(uid));
 
         try {
             ResponseEntity<String> response = restTemplate.getForEntity(

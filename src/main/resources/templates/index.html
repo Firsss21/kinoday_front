@@ -4,21 +4,36 @@
 
 <div class="main"><header th:include="fragments/header"></header><div class="data">
 
-    <div class="container" th:if="${not #lists.isEmpty(movies)}" style="display: inline-block; width: 45%">
-        hi eptahgfh
+    <div class="container" th:if="${not #lists.isEmpty(movies)}" style="display: inline-block; width: 80%; vertical-align: top">
+        <h4 style="color:white">Свежие фильмы</h4>
+        <div class="indexMovie conHwer" th:each="mov : ${movies}">
+            <a th:href="@{/movie/{id}(id=${mov.getId()})}">
+                <img style="border-radius: 10px; width: 100%" th:src="${mov.getMainImagePath()}"/>
+                <h5 th:text="${mov.name}"></h5>
+                <div th:if="${mov.getRatingKp()} > 0"><span class="dark">Рейтинг : </span><span th:text="${mov.getRatingKp()}"></span></div>
+            </a>
+        </div>
     </div>
-    <div class="container" th:if="${not #lists.isEmpty(cinema)}" style="display: inline-block; width: 45%">
-        hi eptahgfh
-    </div>
-
-    <div class="cntr mt10" style="width: 100%;">
-        <div class="w90 mauto" th:if="${not #lists.isEmpty(news)}">
-            <a href="/news/"><div class="container conHwer inbl w30 left mlr10" style="vertical-align: top" th:each="story: ${news}">
+    <div class="w80 mauto" th:if="${not #lists.isEmpty(news)}">
+        <div class="container">
+            <h4 style="color:white">Новости</h4>
+            <a href="/news/"><div class="conHwer inbl w30 left mlr10" style="vertical-align: top" th:each="story: ${news}">
                 <h5 th:text="${story.name}"></h5>
                 <span th:text="${story.text}"></span>
             </div></a>
         </div>
     </div>
+    <div class="container" th:if="${not #lists.isEmpty(cinema)}" style="display: inline-block; width: 80%; vertical-align: top">
+        <h4 style="color:white">Наши кинотеатры</h4>
+        <div class="indexCinema conHwer" th:each="ci : ${cinema}">
+            <a th:href="@{/cinema}">
+                <img style="border-radius: 10px; width: 100%" th:src="${ci.getImagePath()}"/>
+                <h5 th:text="${ci.getName()}"></h5>
+            </a>
+        </div>
+    </div>
+
+
 </div><footer th:include="fragments/footer"></footer></div>
 </body>
 </html>

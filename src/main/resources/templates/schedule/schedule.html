@@ -36,12 +36,18 @@
             <span class="dark" th:text="${entry.getKey().getRatingKp()}"></span>
         </div>
         <div class="conHwer inbl left" style="border-left: solid; padding: 0px 15px;" th:each="show : ${entry.getValue()}">
-            <a title="Перейти к сеансу" th:href="@{/schedule/show/{id}(id=${show.getId()})}">
-                <span th:text="${#dates.format(show.getStartTime(), 'hh:mm')}"></span><br>
+            <a th:if="${!show.isStarted()}" title="Перейти к сеансу" th:href="@{/schedule/show/{id}(id=${show.getId()})}">
+                <span th:text="${#dates.format(show.getStartTime(), 'HH:mm')}"></span><br>
                 <span th:text="${show.getHall().getName()}"></span><span class="dark"> зал</span><br>
                 <span th:text="${show.getPrice()}"></span><span class="dark"> руб</span><br>
                 <span th:text="${show.getFormat().getDescription()}"></span><br>
             </a>
+            <div th:if="${show.isStarted()}" style="opacity: 50%">
+                <span th:text="${#dates.format(show.getStartTime(), 'HH:mm')}"></span><br>
+                <span th:text="${show.getHall().getName()}"></span><span class="dark"> зал</span><br>
+                <span th:text="${show.getPrice()}"></span><span class="dark"> руб</span><br>
+                <span th:text="${show.getFormat().getDescription()}"></span><br>
+            </div>
         </div>
     </div>
 </div><footer th:include="fragments/footer"></footer></div>

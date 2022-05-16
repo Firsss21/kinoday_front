@@ -4,36 +4,14 @@ import lombok.*;
 
 import java.io.Serializable;
 
+
+
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Getter
-class PlaceId implements Serializable {
+public class Place {
     private int row;
     private int place;
 }
 
-@NoArgsConstructor
-@AllArgsConstructor
-public class Place {
-    private PlaceId placeId;
-
-    public int getRow() {
-        return placeId.getRow();
-    }
-
-    public int getPlace() {
-        return placeId.getPlace();
-    }
-
-    public Place(int row, int place) {
-        this.placeId = new PlaceId(row, place);
-    }
-
-//    @Override
-//    public String toString() {
-//        return "Place{" +
-//                "row=" + placeId.getRow() + ", " +
-//                "place=" + placeId.getPlace() +
-//                '}';
-//    }
-}

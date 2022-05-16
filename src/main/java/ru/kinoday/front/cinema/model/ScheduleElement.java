@@ -19,6 +19,7 @@ public class ScheduleElement {
     private Format format;
     private int price;
     private boolean started;
+    private Movie movie;
 }
 
 @AllArgsConstructor

@@ -40,7 +40,6 @@ public class NewsService {
             }
         } catch (RestClientException e) {
             e.printStackTrace();
-        } finally {
             return new ArrayList<>();
         }
     }
@@ -54,8 +53,6 @@ public class NewsService {
                 return new ArrayList<>();
             }
         } catch (RestClientException e) {
-            e.printStackTrace();
-        } finally {
             return new ArrayList<>();
         }
     }

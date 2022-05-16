@@ -1,0 +1,15 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head" th:with="pageTitle='Ошибка!'"></head>
+<body>
+
+<div class="main"><header th:include="fragments/header"></header><div class="data">
+
+    <div class="container cntr w30">
+       <h4 style="color: white">Непредвиденная ошибка!</h4>
+        <span class="bl dark">Попробуйте позже...</span>
+        <a class="mt10 mauto btn btn-outline-success btn-block" href="/">На главную</a>
+    </div>
+</div><footer th:include="fragments/footer"></footer></div>
+
+</body>
+</html>

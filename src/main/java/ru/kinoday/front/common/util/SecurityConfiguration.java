@@ -43,25 +43,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/admin/**").hasRole("ADMIN")
         http
                 .csrf().disable()
-//                .addFilter(new SessionFilter(), BasicAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/*").permitAll()
                 .antMatchers("/profile").authenticated()
-//                .antMatchers("/signup").permitAll()
-//                .antMatchers("/forgetPassword").permitAll()
-//                .antMatchers("/changePassword").permitAll()
-//                .antMatchers("/*").permitAll()
-//                .antMatchers( "/resources/css/*").permitAll()
-//                .antMatchers("/resources/images/*").permitAll()
-//                .antMatchers("/templates/css/*").permitAll()
-//                .antMatchers("/images/*").permitAll()
-//                .antMatchers("/css/*").permitAll()
-                // TODO: dont filter static files
-//                .antMatchers("/templates/*")
-//                .anyRequest()
-//                .authenticated()
+                .antMatchers("/admin/**").hasRole("ADMIN")
                 .and()
-//                .addFilterAfter(new SessionFilter(), BasicAuthenticationFilter.class)
                 .formLogin()
                 .defaultSuccessUrl("/")
                 .successHandler(successHandler)
@@ -75,7 +60,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/login")
                 .addLogoutHandler(logoutHandler)
                 .and()
-                .exceptionHandling().accessDeniedPage("/access-denied");
+                .exceptionHandling().accessDeniedPage("/")
+        ;
     }
 
     @Bean

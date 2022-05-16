@@ -3,10 +3,12 @@ package ru.kinoday.front.cinema.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.Date;
 
 @Data
+@ToString
 public class Movie {
     private Long id;
     private String name;
@@ -38,6 +40,9 @@ enum Genre {
     SCIENCE("Научный"),
     ANIMATION("Мультфильм"),
     WESTERN("Вестерн"),
+    COMEDY("Комедия"),
+    BIOGRAPHY("Биографический"),
+    DETECTIVE("Детектив"),
     ;
 
     private final String description;

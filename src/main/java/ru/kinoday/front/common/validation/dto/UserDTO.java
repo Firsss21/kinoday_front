@@ -15,21 +15,21 @@ import javax.validation.constraints.Size;
 public class UserDTO {
     @NotNull
     @NotEmpty
-    @Size(min = 3, max = 40)
+    @Size(min = 3, max = 40, message = "Введите логин размером от 3 до 40 символов")
     private String login;
 
     @NotNull
     @NotEmpty
-    @Size(min = 8, max = 40)
+    @Size(min = 8, max = 40, message = "Введите пароль размером от 8 до 40 символов")
     private String password;
     @NotNull
     @NotEmpty
-    @Size(min = 8, max = 40)
+    @Size(min = 8, max = 40, message = "Введите пароль размером от 8 до 40 символов")
     private String matchingPassword;
 
     @NotNull
     @NotEmpty
-    @ValidEmail
+    @ValidEmail(message = "Введите коректный почтовый адрес")
     private String email;
 
     public UserDTO() {

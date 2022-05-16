@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.kinoday.front.cinema.CinemaService;
+import ru.kinoday.front.cinema.ScheduleService;
 import ru.kinoday.front.cinema.model.Movie;
 
 import java.time.LocalDateTime;
@@ -23,6 +24,7 @@ import java.util.concurrent.TimeUnit;
 public class MovieController {
 
     private CinemaService cinemaService;
+    private ScheduleService scheduleService;
 
     @GetMapping("/")
     public String index(Model m) {

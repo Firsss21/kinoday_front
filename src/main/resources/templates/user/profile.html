@@ -4,12 +4,68 @@
 
 <div class="main"><header th:include="fragments/header"></header><div class="data">
 
+    <form method="post" th:action="@{/profile}" th:object="${user}">
+    <input type="hidden" th:field="*{uid}" th:value="${user.uid}">
     <div class="container cntr" style="width: 70%">
-<!--        Список ваших билетов-->
-<!--        Выйти-->
-<!--        Настройки профиля-->
-<!--        Выйти-->
-        <a href="/logout">Выйти</a>
+        <p class="text-danger" th:each="error : ${#fields.allErrors()}" th:text="${error}">Validation error</p>
+        <p class="text-danger" th:text="${error}">Validation error</p>
+        <p class="text-success" th:text="${success}">success</p>
+
+        <h4 style="color: white">Профиль</h4>
+        <div style="vertical-align: top; display: inline-block; width: 100%; margin-top: 15px">
+            <div class="inbl w48" style="vertical-align: top">
+
+                <input type="email" th:field="*{email}" name="email" th:value="${email}" class="mauto w80 form-control mb10" placeholder="email" required>
+                <input type="text" id="login" th:field="*{login}" th:value="${login}" placeholder="login" class="mauto w80 form-control mb10 mt10" required>
+                <div class="form-check form-switch" style="height: 50px; padding: 0">
+                    <input class="form-check-input" style="margin: 0 0 0 25%; padding: 0;" type="checkbox" id="admin" th:field="*{admin}" th:value="${admin}">
+                    <label class="form-check-label" style="display: flex; line-height: 13px; padding-left: 5px;" for="admin">Администратор</label>
+                </div>
+            </div>
+            <div class="inbl w48" style="vertical-align: top">
+                <input type="password" th:field="*{password}" name="password" class="mauto w80 form-control mb10 " placeholder="Password">
+                <input type="password" th:field="*{matchingPassword}" class="mauto w80 form-control mb10 mt10" placeholder="Repeat password">
+                <div style="height: 50px">
+
+                </div>
+            </div>
+        </div>
+        <div class="cntr">
+            <div class="w48 inbl">
+                <button type="submit" class="mt10 mauto btn btn-outline-success btn-block inbl w40">Сохранить</a>
+            </div>
+            <div class="w48 inbl">
+                <a class="mt10 mauto btn btn-outline-danger btn-block inbl w40" href="/logout">Выйти</a>
+            </div>
+        </div>
+    </div>
+    </form>
+
+    <div th:if="${not #lists.isEmpty(tickets)}" class="container cntr" style="width: 70%">
+        <h4 style="color: white">Ваши заказы:</h4>
+        <div th:each="ticket : ${tickets}" th:if="${!ticket.getScheduled().isStarted()}" class="ticket conHwer">
+            <span style="color: white; font-weight: bold" th:text="${ticket.getScheduled().getMovie().getName()}"></span><br>
+            <img style="border-radius: 10px; width: 100%" th:src="${ticket.getScheduled().getMovie().getMainImagePath()}"/>
+            <span class="dark">Формат: </span><span style="color: white" th:text="${ticket.getScheduled().getFormat().getDescription()}"></span><br>
+            <span class="dark">Время:</span>
+            <span th:text="${#dates.format(ticket.getScheduled().getStartTime(), 'dd MMM HH:mm')}"></span><br>
+            <span class="dark">Зал:</span>
+            <span style="color: white" th:text="${ticket.getScheduled().getHall().getName()}"></span><br>
+            <span style="color:white" th:text="'Ряд: ' + ${ticket.getPlace().row} + ', место: ' + ${ticket.getPlace().place}"></span><br>
+            <span class="dark">Покажите этот код в кинотеатре:</span><br>
+            <span style="color: white;border: 1px solid;padding: 3px;margin-top: 3px;display: block;" th:text="${ticket.getPersonalHashCode()}"></span>
+        </div>
+        <div th:each="ticket : ${tickets}" th:if="${ticket.getScheduled().isStarted()}" style="opacity: 50%" class="ticket conHwer">
+            <span style="color: white; font-weight: bold" th:text="${ticket.getScheduled().getMovie().getName()}"></span><br>
+            <img style="border-radius: 10px; width: 100%" th:src="${ticket.getScheduled().getMovie().getMainImagePath()}"/>
+            <span class="dark">Формат: </span><span style="color: white" th:text="${ticket.getScheduled().getFormat().getDescription()}"></span><br>
+            <span class="dark">Время:</span>
+            <span th:text="${#dates.format(ticket.getScheduled().getStartTime(), 'dd MMM HH:mm')}"></span><br>
+            <span class="dark">Зал:</span>
+            <span style="color: white" th:text="${ticket.getScheduled().getHall().getName()}"></span><br>
+            <span style="color:white" th:text="'Ряд: ' + ${ticket.getPlace().row} + ', место: ' + ${ticket.getPlace().place}"></span><br>
+        </div>
+<!--        оплатить пяцот рупий-->
     </div>
 </div><footer th:include="fragments/footer"></footer></div>
 

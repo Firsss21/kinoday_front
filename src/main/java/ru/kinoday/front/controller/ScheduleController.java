@@ -89,30 +89,15 @@ public class ScheduleController {
         if (user instanceof User){
             // send to payment
             User userData = (User) user;
-            return sendToPayment(order, userData.getEmail());
+            return sendToPayment(order, userData.getEmail(), userData.getId());
         } else {
-
-            if (!email.equals("default"))
-                return sendToPayment(order, email);
-
-            // send to form without user login for post email
-            return orderWithoutEmail(order, m);
+            return "redirect:/profile?error=needlogin";
         }
     }
 
-    private String orderWithoutEmail(Order order, Model m) {
-        Show show = scheduleService.getShow(order.getScheduleId());
-        m.addAttribute("show", show);
-        m.addAttribute("order", order);
-        m.addAttribute("price", order.getTickets().size() * show.getScheduleElement().getPrice());
-        m.addAttribute("cinema", cinemaService.getCinemaById(show.getCinemaId()));
-        return "/order/withoutEmail";
-    }
-
-    private String sendToPayment(Order order, String email) {
+    private String sendToPayment(Order order, String email, Long uid) {
         if (orderService.checkOrder(order)) {
-            return orderService.paymentRequest(order, email);
-//            return "redirect:https://google.com";
+            return orderService.paymentRequest(order, email, uid);
         } else {
             return "redirect:/schedule/";
         }

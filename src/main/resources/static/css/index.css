@@ -73,14 +73,6 @@ body {
     left: 0;
 }
 
-.footer {
-    position: relative;
-    background-color: #050b24;
-    width: 100%;
-    min-width: 600px;
-    height: 180px;
-}
-
 .text {
     color: #c3c3c3;
     font-family: 'Quicksand', sans-serif;
@@ -286,3 +278,58 @@ body {
     color: black;
 }
 
+.indexCinema {
+    width: 26%;
+    margin: 2% 3%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.indexMovie {
+    width: 24%;
+    margin: 2% 4%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.ticket {
+    display: inline-block;
+    margin: 2% 4%;
+    vertical-align: top;
+    width: 30%;
+    border: 1px solid;
+    padding: 12px;
+}
+
+.link {
+    color:white;
+    display: inline-block;
+
+    flex-wrap: nowrap;
+}
+
+
+.footer {
+    position: relative;
+    background-color: #050b24;
+    width: 100%;
+    min-width: 600px;
+    height: 180px;
+    display: table;
+}
+
+.footer ul {
+    margin-top: 100px;
+    vertical-align: middle;
+    display: table-cell;
+}
+
+.footer li {
+    display: table-cell;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.wh {
+    color: white;
+}

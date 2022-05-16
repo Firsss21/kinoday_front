@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import ru.kinoday.front.cinema.CinemaService;
 import ru.kinoday.front.cinema.ScheduleService;
+import ru.kinoday.front.cinema.model.Cinema;
 import ru.kinoday.front.cinema.model.Schedule;
 import ru.kinoday.front.cinema.model.ScheduleDTO;
 import ru.kinoday.front.cinema.model.Show;
@@ -15,6 +17,7 @@ import ru.kinoday.front.cinema.model.Show;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -50,7 +53,11 @@ public class ScheduleRemoteService implements ScheduleService {
 
     @Override
     public Schedule getSchedule() {
-        Long cinemaId = cinemaService.getAllCinema().get(0).getId();
+        List<Cinema> allCinema = cinemaService.getAllCinema();
+        if (allCinema.isEmpty())
+            return Schedule.empty();
+
+        Long cinemaId = allCinema.get(0).getId();
         // first cinema from list
         return getSchedule(cinemaId);
     }
@@ -78,15 +85,18 @@ public class ScheduleRemoteService implements ScheduleService {
         variables.put("from", from.toString());
         variables.put("to", to.toString());
         variables.put("id", String.valueOf(cinemaId));
-
-        ResponseEntity<ScheduleDTO> response = restTemplate.getForEntity(
-                urlTemplate,
-                ScheduleDTO.class,
-                variables
-        );
-        if (response.getStatusCode().is2xxSuccessful()) {
-            return response.getBody().toSchedule();
-        } else {
+        try {
+            ResponseEntity<ScheduleDTO> response = restTemplate.getForEntity(
+                    urlTemplate,
+                    ScheduleDTO.class,
+                    variables
+            );
+            if (response.getStatusCode().is2xxSuccessful()) {
+                return response.getBody().toSchedule();
+            } else {
+                return Schedule.empty();
+            }
+        } catch (RestClientException e) {
             return Schedule.empty();
         }
     }

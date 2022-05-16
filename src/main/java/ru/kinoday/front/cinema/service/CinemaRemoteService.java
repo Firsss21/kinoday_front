@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import ru.kinoday.front.cinema.CinemaService;
 import ru.kinoday.front.cinema.model.Cinema;
@@ -32,50 +33,71 @@ public class CinemaRemoteService implements CinemaService {
 
     @Override
     public Cinema getCinemaById(long id) {
-        ResponseEntity<Cinema> response = restTemplate.getForEntity(hostAddress + pathCinema + id, Cinema.class);
-        if (response.getStatusCode().is2xxSuccessful()) {
-            return response.getBody();
-        } else {
+        try {
+            ResponseEntity<Cinema> response = restTemplate.getForEntity(hostAddress + pathCinema + id, Cinema.class);
+            if (response.getStatusCode().is2xxSuccessful()) {
+                return response.getBody();
+            } else {
+                return null;
+            }
+        } catch (RestClientException e) {
             return null;
         }
     }
 
     @Override
     public List<Cinema> getAllCinema() {
-        ResponseEntity<Cinema[]> response = restTemplate.getForEntity(hostAddress + pathCinema, Cinema[].class);
-        if (response.getStatusCode().is2xxSuccessful()) {
-            return Arrays.stream(response.getBody()).collect(Collectors.toList());
-        } else {
+        try {
+            ResponseEntity<Cinema[]> response = restTemplate.getForEntity(hostAddress + pathCinema, Cinema[].class);
+            if (response.getStatusCode().is2xxSuccessful()) {
+                return Arrays.stream(response.getBody()).collect(Collectors.toList());
+            } else {
+                return new ArrayList<>();
+            }
+        } catch (RestClientException e) {
             return new ArrayList<>();
         }
     }
 
     @Override
     public Movie getMovieById(long id) {
-        ResponseEntity<Movie> response = restTemplate.getForEntity(hostAddress + pathMovie + id, Movie.class);
-        if (response.getStatusCode().is2xxSuccessful()) {
-            return response.getBody();
-        } else {
+        try {
+            ResponseEntity<Movie> response = restTemplate.getForEntity(hostAddress + pathMovie + id, Movie.class);
+            if (response.getStatusCode().is2xxSuccessful()) {
+                return response.getBody();
+            } else {
+                return null;
+            }
+        } catch (RestClientException e) {
             return null;
         }
     }
 
     @Override
     public List<Movie> getLastMovies(int count) {
-        ResponseEntity<Movie[]> response = restTemplate.getForEntity(hostAddress + pathMovie + "last/?count=" + count, Movie[].class);
-        if (response.getStatusCode().is2xxSuccessful()) {
-            return Arrays.stream(response.getBody()).collect(Collectors.toList());
-        } else {
+        try {
+            ResponseEntity<Movie[]> response = restTemplate.getForEntity(hostAddress + pathMovie + "last/?count=" + count, Movie[].class);
+            if (response.getStatusCode().is2xxSuccessful()) {
+                return Arrays.stream(response.getBody()).collect(Collectors.toList());
+            } else {
+                return new ArrayList<>();
+            }
+        } catch (RestClientException e) {
+            e.printStackTrace();
             return new ArrayList<>();
         }
     }
 
     @Override
     public List<Movie> getAllMovies() {
-        ResponseEntity<Movie[]> response = restTemplate.getForEntity(hostAddress + pathMovie, Movie[].class);
-        if (response.getStatusCode().is2xxSuccessful()) {
-            return Arrays.stream(response.getBody()).collect(Collectors.toList());
-        } else {
+        try {
+            ResponseEntity<Movie[]> response = restTemplate.getForEntity(hostAddress + pathMovie, Movie[].class);
+            if (response.getStatusCode().is2xxSuccessful()) {
+                return Arrays.stream(response.getBody()).collect(Collectors.toList());
+            } else {
+                return new ArrayList<>();
+            }
+        } catch (RestClientException e) {
             return new ArrayList<>();
         }
     }

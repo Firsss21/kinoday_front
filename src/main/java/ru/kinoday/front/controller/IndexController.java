@@ -1,15 +1,16 @@
 package ru.kinoday.front.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ru.kinoday.front.cinema.CinemaService;
+import ru.kinoday.front.cinema.model.Movie;
 import ru.kinoday.front.common.exception.UserAlreadyExistException;
 import ru.kinoday.front.common.exception.UserNotFoundException;
 import ru.kinoday.front.common.model.User;
@@ -18,6 +19,8 @@ import ru.kinoday.front.common.service.UserService;
 import ru.kinoday.front.common.validation.dto.UserDTO;
 import ru.kinoday.front.news.service.NewsService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -40,7 +43,18 @@ public class IndexController {
         return "index";
     }
     @GetMapping("/login")
-    public String login() {
+    public String login(HttpServletRequest request, Model model) {
+
+        HttpSession session = request.getSession(false);
+        String errorMessage = null;
+        if (session != null) {
+            AuthenticationException ex = (AuthenticationException) session
+                    .getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+            if (ex != null) {
+                errorMessage = ex.getMessage();
+            }
+        }
+        model.addAttribute("errorMessage", errorMessage);
         return "login/signin";
     }
 
@@ -125,6 +139,17 @@ public class IndexController {
     @GetMapping("/rules")
     public String getRules() {
         return "/info/rules";
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<Boolean> userExist(@PathVariable long id){
+        boolean b = userService.userExist(id);
+        return ResponseEntity.ok(b);
+    }
+
+    @GetMapping("/error")
+    public String handleError() {
+        return "error";
     }
 
 }

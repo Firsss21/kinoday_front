@@ -1,8 +1,28 @@
 <div class="footer">
     <div class="cntr">
-<!--        Киномир-->
-<!--        КиноворонкаРекламаДисконтная программаНовостиБлогТрейлернаяВакансииЗадать вопрос    справка-->
-<!--            вход админам-->
-        <img style="height: 180px;" th:src="@{/images/footer.png}"/>
+<!--        <ul style="width: 80%" class="text navigation">-->
+<!--            <a href="/news/">Новости</a>-->
+<!--            <a href="/news/">Правила</a>-->
+<!--            <div th:switch="${#authentication}? ${#authorization.expression('isAuthenticated()')} : ${false}">-->
+<!--                <a th:case="${false}" href="/login" style="float: right;padding: 0 40px 0 30px;"><li><span class="button">ВОЙТИ</span></a>-->
+<!--                <a th:case="${true}" href="/profile" style="float: right;padding: 0 40px 0 30px;"><li><span class="button">ПРОФИЛЬ</span></a>-->
+<!--            </div>-->
+<!--        </ul>-->
+        <div class="inbl" style="width: 30%; margin-top: 75px; float: left">
+            <ul>
+                <li><a class="link" href="/news/">Новости</a></li>
+                <li><a style="margin-left: 70%; margin-right: 10%" class="link" href="/rules">Правила</a></li>
+                <li><a style="margin-left: 70%; margin-right: 10%" class="link" href="/admin/">Администратору</a></li>
+            </ul>
+        </div>
+        <div class="inbl" style="width: inherit">
+            <img style="height: 180px; position: absolute; left: 50%;transform: translateX(-50%);" th:src="@{/images/footer.png}"/>
+        </div>
+        <div class="inbl" style="width: 30%; margin-top: 75px; float: right; vertical-align: middle">
+            <ul>
+                <li><a class="link"  href="mailto:kinoday3@mail.ru">kinoday3@mail.ru</a></li>
+                <li><a class="link" style="margin-left: 30%; margin-right: 10%" href="https://github.com/Firsss21">github.com</a></li>
+            </ul>
+        </div>
     </div>
 </div>

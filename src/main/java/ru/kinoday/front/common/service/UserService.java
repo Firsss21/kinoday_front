@@ -13,7 +13,10 @@ import ru.kinoday.front.common.exception.UserNotFoundException;
 import ru.kinoday.front.common.model.*;
 import ru.kinoday.front.common.repository.PasswordResetTokenRepository;
 import ru.kinoday.front.common.repository.UserRepository;
+import ru.kinoday.front.common.validation.dto.ProfileDTO;
 import ru.kinoday.front.common.validation.dto.UserDTO;
+import ru.kinoday.front.order.entity.Ticket;
+import ru.kinoday.front.order.service.OrderService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,5 +88,32 @@ public class UserService {
 
     public void update(User userData) {
         userRepository.save(userData);
+    }
+
+    public boolean userExist(long id) {
+        return userRepository.findById(id).isPresent();
+    }
+
+    public User updateUser(long uid, ProfileDTO profileDTO) {
+
+        User u = userRepository.getById(uid);
+        u.setEmail(profileDTO.getEmail());
+        u.setLogin(profileDTO.getLogin());
+
+        if (profileDTO.getPassword().equals(profileDTO.getMatchingPassword()) && !passwordEncoder.encode(profileDTO.getPassword()).equals(u.getPassword())){
+            u.setPassword(passwordEncoder.encode(profileDTO.getPassword()));
+        }
+
+        if (profileDTO.isAdmin())
+            u.setRole(Role.ADMIN);
+        else
+            u.setRole(Role.USER);
+
+        userRepository.save(u);
+        return u;
+    }
+
+    public User getUser(long uid) {
+        return userRepository.findById(uid).get();
     }
 }

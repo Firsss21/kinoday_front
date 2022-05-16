@@ -2,6 +2,8 @@ package ru.kinoday.front.common.model;
 
 import jdk.jfr.DataAmount;
 import lombok.Data;
+import ru.kinoday.front.common.validation.dto.ProfileDTO;
+import ru.kinoday.front.common.validation.dto.UserDTO;
 
 import javax.persistence.*;
 
@@ -26,4 +28,12 @@ public class User {
     private Status status;
 
     private String ip;
+
+    public UserDTO getDTO() {
+        return new UserDTO(login, password, password, getEmail());
+    }
+
+    public ProfileDTO getProfileDTO() {
+        return new ProfileDTO(id, login, password, password, email, role == Role.ADMIN);
+    }
 }

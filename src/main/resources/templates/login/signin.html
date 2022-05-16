@@ -7,7 +7,9 @@
     <div class="container cntr" style="width: 45%">
         <div style="margin: 20px;">
         <form method="post" class="login" action="/login">
+
             <p class="text-danger" th:each="error : ${#fields.allErrors()}" th:text="${error}">Validation error</p>
+            <p class="text-danger" th:if="${errorMessage}" th:text="'Неверный логин или пароль!'">Validation error</p>
             <h2 class="bl" style="margin-bottom: 20px">Войти в аккаунт</h2>
             <input type="email" id="username" name="username" class="mauto form-control" placeholder="Email" required>
             <input type="password" id="password" name="password" class="mauto form-control" placeholder="Password" required>
