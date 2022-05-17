@@ -8,6 +8,7 @@
         <span th:text="${story.text}"></span>
         <br>
         <span style="font-size: 12px; color: #737373" th:text="${#dates.format(story.getCreateDate, 'dd MMM yyyy')}"></span>
+        <a sec:authorize="hasAuthority('worker:write')" style="float: right" class="darkness" th:href="@{/admin/news/{id}(id=${story.getId()})}">Удалить</a>
     </div>
 </div><footer th:include="fragments/footer"></footer></div>
 

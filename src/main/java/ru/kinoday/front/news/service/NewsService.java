@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import ru.kinoday.front.cinema.model.dto.NewsDto;
 import ru.kinoday.front.news.entity.News;
 import ru.kinoday.front.news.entity.NewsList;
 
@@ -54,6 +55,28 @@ public class NewsService {
             }
         } catch (RestClientException e) {
             return new ArrayList<>();
+        }
+    }
+
+    public boolean addNews(NewsDto news) {
+        try {
+            ResponseEntity<String> response = restTemplate.postForEntity(hostAddress + path, news, String.class);
+            if (response.getStatusCode().is2xxSuccessful()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (RestClientException e) {
+            return false;
+        }
+    }
+
+    public boolean deleteNews(Long id) {
+        try {
+            restTemplate.delete(hostAddress + path + id);
+            return true;
+        } catch (RestClientException e) {
+            return false;
         }
     }
 }

@@ -20,6 +20,7 @@
             <span class="dark">Страна: </span><span th:text="${movie.getCountry()}"></span><br>
             <span class="dark">Жанр: </span><span th:text="${movie.getGenre().getDescription()}"></span><br>
             <span class="dark">Режиссер: </span><span th:text="${movie.getDirector()}"></span><br>
+            <a sec:authorize="hasAuthority('worker:write')" class="bl mt10 darkness" th:href="@{/admin/movie/{id}(id=${movie.getId()})}">Удалить</a>
         </div>
     <div class="mt10"></div>
     </div>

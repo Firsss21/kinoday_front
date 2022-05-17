@@ -3,23 +3,82 @@
 <body>
 
 <div class="main"><header th:include="fragments/header"></header><div class="data">
+    <p class="text-danger" th:each="error : ${#fields.allErrors()}" th:text="${error}">Validation error</p>
+    <p class="text-danger" th:text="${error}">Validation error</p>
+    <p class="text-success" th:text="${success}">success</p>
     <div class="container">
-        <h4 class="wh">Пробить билет</h4>
+        <form action="/admin/" method="post">
+            <h4 class="wh">Пробить билет</h4>
+            <input type="text" name="hash" id="hash" placeholder="Код тикета" class="mauto w40 form-control mb10 mt10" required>
+            <input type="submit" class="w40 mauto btn btn-outline-success btn-block" th:value="Получить"/>
+        </form>
+    </div>
+    <div class="container cntr" th:if="${ticket} != null">
+        <div class="w40 mauto">
+            <form action="/admin/" method="post">
+                <input type="hidden" id="ticketId" name="ticketId" th:value="${ticket.getId()}"/>
+                <span style="color: white; font-weight: bold" th:text="${ticket.getScheduled().getMovie().getName()}"></span><br>
+                <div class="mt10"></div>
+                <img style="border-radius: 10px; height: 20%; display: block; margin: auto;" th:src="${ticket.getScheduled().getMovie().getMainImagePath()}"/>
+                <span class="dark">Формат: </span><span style="color: white" th:text="${ticket.getScheduled().getFormat().getDescription()}"></span><br>
+                <span class="dark">Время:</span>
+                <span th:text="${#dates.format(ticket.getScheduled().getStartTime(), 'dd MMM HH:mm')}"></span><br>
+                <span class="dark">Зал:</span>
+                <span style="color: white" th:text="${ticket.getScheduled().getHall().getName()}"></span><br>
+                <span style="color:white" th:text="'Ряд: ' + ${ticket.getPlace().row} + ', место: ' + ${ticket.getPlace().place}"></span><br>
+                <span style="color: white;border: 1px solid; margin-bottom: 10px; padding: 3px;margin-top: 3px;display: block;" th:text="${ticket.getType()}"></span>
+                <input type="submit" class="w40 mauto btn btn-outline-success btn-block" th:value="Активировать"/>
+            </form>
+        </div>
     </div>
     <div class="container">
         <h4 class="wh">Добавить фильм</h4>
-        добавить фильм
+        <form th:action="@{/admin/movie}" th:object="${movie}" method="post">
+            <input class="mauto w40 bl form-control mb10 mt10" required type="text" th:field="*{name}" th:value="${name}" placeholder="Название"/>
+            <textarea class="mauto w40 bl form-control mb10 mt10" required th:field="*{description}" placeholder="Описание"></textarea>
+            <input class="mauto w40 bl form-control mb10 mt10" required type="text" th:field="*{mainImagePath}" th:value="${mainImagePath}" placeholder="Ссылка на изображение"/>
+            <input title="Ввести последние символы от ссылки, например ссылка: https://www.youtube.com/watch?v=5qap5aO4i9A, нужно только 5qap5aO4i9A" class="mauto w40 bl form-control mb10 mt10" required type="text" th:field="*{trailer}" th:value="${trailer}" placeholder="Ссылка на трейлер"/>
+            <select class="mauto w40 bl form-control mb10 mt10" th:placeholder="Жанр" th:field="*{genre}">
+                <option style="color: black" th:each="g : ${genres}" th:value="${g}" th:text="${g.getDescription()}"></option>
+            </select>
+            <input class="mauto w40 bl form-control mb10 mt10" required type="text" th:field="*{country}" th:value="${country}" placeholder="Страна"/>
+            <input class="mauto w40 bl form-control mb10 mt10" required type="text" th:field="*{year}" th:value="${year}" placeholder="Год"/>
+            <input class="mauto w40 bl form-control mb10 mt10" required type="number" min="1" max="1000" th:field="*{duration}" th:value="${duration}" placeholder="Длительность в минутах"/>
+            <input class="mauto w40 bl form-control mb10 mt10" required type="text" th:field="*{director}" th:value="${director}" placeholder="Режиссер"/>
+            <input class="mauto w40 bl form-control mb10 mt10" required type="number" min="0" max="40" th:field="*{ageRating}" th:value="${duration}" placeholder="Возрастное ограничение"/>
+            <input class="mauto w40 bl form-control mb10 mt10" required type="number" min="0" th:field="*{kinopoiskId}" th:value="${duration}" placeholder="Кинопоиск ID"/>
+            <input type="submit" class="w40 mauto btn btn-outline-success btn-block" th:value="Создать"/>
+        </form>
     </div>
     <div class="container">
         <h4 class="wh">Добавить сеанс</h4>
+        <form th:action="@{/admin/schedule}" th:object="${scheduleEl}" method="post">
+            <input title="Введите время" class="mauto w40 bl form-control mb10 mt10" required type="datetime-local" th:field="*{startTime}" th:value="${startTime}" placeholder="Время"/>
+            <select class="mauto w40 bl form-control mb10 mt10" th:placeholder="Зал" th:field="*{cinemaHallId}">
+                <option style="color: black" th:each="h: ${halls}" th:value="${h.getKey()}" th:text="${h.getValue()}"></option>
+            </select>
+            <select class="mauto w40 bl form-control mb10 mt10" th:placeholder="Формат" th:field="*{format}">
+                <option style="color: black" th:each="f : ${formats}" th:value="${f}" th:text="${f.getDescription()}"></option>
+            </select>
+            <select class="mauto w40 bl form-control mb10 mt10" th:placeholder="Фильм" th:field="*{movieId}">
+                <option style="color: black" th:each="m : ${movies}" th:value="${m.getId()}" th:text="${m.getName()}"></option>
+            </select>
+            <input class="mauto w40 bl form-control mb10 mt10" required type="number" min="1" max="10000" th:field="*{price}" th:value="${price}" placeholder="Цена"/>
+            <input type="submit" class="w40 mauto btn btn-outline-success btn-block" th:value="Создать"/>
+        </form>
     </div>
     <div class="container">
         <h4 class="wh">Добавить новость</h4>
+        <form th:action="@{/admin/news}" th:object="${news}" method="post">
+            <input class="mauto w40 bl form-control mb10 mt10" required type="text" th:field="*{name}" th:value="${name}" placeholder="Заголовок"/>
+            <textarea class="mauto w40 bl form-control mb10 mt10" required th:field="*{text}" placeholder="Текст"></textarea>
+            <input type="submit" class="w40 mauto btn btn-outline-success btn-block" th:value="Создать"/>
+        </form>
     </div>
     <div class="container">
         <h4 class="wh">Статус серверов</h4>
     </div>
 </div><footer th:include="fragments/footer"></footer></div>
 
-</body>
+</body>w40
 </html>

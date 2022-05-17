@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 import ru.kinoday.front.cinema.CinemaService;
 import ru.kinoday.front.cinema.model.Cinema;
 import ru.kinoday.front.cinema.model.Movie;
+import ru.kinoday.front.cinema.model.dto.MovieDto;
 import ru.kinoday.front.news.entity.News;
 
 import java.util.ArrayList;
@@ -99,6 +100,26 @@ public class CinemaRemoteService implements CinemaService {
             }
         } catch (RestClientException e) {
             return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public boolean addMovie(MovieDto movie) {
+        try {
+            restTemplate.postForEntity(hostAddress + pathMovie, movie, String.class);
+            return true;
+        } catch (RestClientException e) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean deleteMovie(Long id) {
+        try {
+            restTemplate.delete(hostAddress + pathMovie + id);
+            return true;
+        } catch (RestClientException e) {
+            return false;
         }
     }
 

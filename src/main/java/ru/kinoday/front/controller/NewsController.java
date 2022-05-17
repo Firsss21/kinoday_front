@@ -22,7 +22,4 @@ public class NewsController {
         return "news/feed";
     }
 
-    // TODO:
-    // new news creating
-
 }

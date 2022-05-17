@@ -36,7 +36,12 @@ public class MovieController {
     public String movieById(@PathVariable long id, Model m) {
         Movie movie = cinemaService.getMovieById(id);
         m.addAttribute("movie", movie);
-        m.addAttribute("duration", java.time.LocalDate.now().atTime(0,0,0).plusSeconds(movie.getDuration() / 1000).format(DateTimeFormatter.ofPattern("HH:mm")));
+        if (movie != null)
+            m.addAttribute("duration", java.time.LocalDate
+                    .now()
+                    .atTime(0,0,0)
+                    .plusSeconds(movie.getDuration() / 1000)
+                    .format(DateTimeFormatter.ofPattern("HH:mm")));
         return "movie/movie";
     }
 }

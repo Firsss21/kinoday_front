@@ -140,4 +140,51 @@ public class OrderService {
             return new ArrayList<>();
         }
     }
+
+    public Ticket getTicketByHash(String hash) {
+        String urlTemplate = UriComponentsBuilder.fromHttpUrl(hostAddress + path + "hash")
+                .queryParam("hash", "{hash}")
+                .encode()
+                .toUriString();
+
+        Map<String, String> variables = new HashMap<>();
+        variables.put("hash", hash);
+
+        System.out.println(hash);
+
+        ResponseEntity<Ticket> response = restTemplate.getForEntity(
+                urlTemplate,
+                Ticket.class,
+                variables
+        );
+
+        if (response.getStatusCode().is2xxSuccessful()) {
+            return response.getBody();
+        } else {
+            return null;
+        }
+    }
+
+    public Ticket useTicket(long id) {
+        String urlTemplate = UriComponentsBuilder.fromHttpUrl(hostAddress + path + "use")
+                .queryParam("id", "{id}")
+                .encode()
+                .toUriString();
+
+        Map<String, Long> variables = new HashMap<>();
+        variables.put("id", id);
+
+        ResponseEntity<Ticket> response = restTemplate.getForEntity(
+                urlTemplate,
+                Ticket.class,
+                variables
+        );
+
+        if (response.getStatusCode().is2xxSuccessful()) {
+            Ticket body = response.getBody();
+            return body;
+        } else {
+            return null;
+        }
+    }
 }

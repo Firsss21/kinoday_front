@@ -13,6 +13,7 @@ import ru.kinoday.front.cinema.model.Cinema;
 import ru.kinoday.front.cinema.model.Schedule;
 import ru.kinoday.front.cinema.model.ScheduleDTO;
 import ru.kinoday.front.cinema.model.Show;
+import ru.kinoday.front.cinema.model.dto.ScheduleElementDto;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -110,5 +111,13 @@ public class ScheduleRemoteService implements ScheduleService {
         }
     }
 
+    @Override
+    public ResponseEntity<String> addSchedule(ScheduleElementDto elementDto) {
+        try {
+            return restTemplate.postForEntity(hostAddress + pathSchedule, elementDto, String.class);
+        } catch (RestClientException e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
 
 }
