@@ -62,7 +62,8 @@ public class ScheduleController {
 
     @PostMapping("/order/{scheduleId}")
     public String newOrder(@Valid @ModelAttribute("order") Order order,
-                           @RequestParam(required = false, name = "email", defaultValue = "default") String email,
+//                           @RequestParam(required = false, name = "email", defaultValue = "default") String email,
+                           @RequestParam(required = true, name = "bookOnly") Boolean onlyBook,
                            BindingResult result,
                            @PathVariable int scheduleId,
                            Model m,
@@ -89,6 +90,11 @@ public class ScheduleController {
         if (user instanceof User){
             // send to payment
             User userData = (User) user;
+
+            if (onlyBook) {
+                return newOrder(order, userData.getEmail());
+            }
+
             return sendToPayment(order, userData.getEmail(), userData.getId());
         } else {
             return "redirect:/profile?error=needlogin";
@@ -101,5 +107,12 @@ public class ScheduleController {
         } else {
             return "redirect:/schedule/";
         }
+    }
+    private String newOrder(Order order, String email) {
+        if (orderService.checkOrder(order)) {
+            orderService.orderNewTickets(order, email);
+        }
+        return "redirect:/profile";
+
     }
 }

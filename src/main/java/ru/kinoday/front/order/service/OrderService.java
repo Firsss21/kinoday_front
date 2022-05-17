@@ -58,7 +58,7 @@ public class OrderService {
         return getPaymentLink(tickets, uid);
     }
 
-    private List<Ticket> orderNewTickets(Order order, String email) {
+    public List<Ticket> orderNewTickets(Order order, String email) {
 
         String urlTemplate = UriComponentsBuilder.fromHttpUrl(hostAddress + path + "order")
                 .queryParam("email", "{email}")

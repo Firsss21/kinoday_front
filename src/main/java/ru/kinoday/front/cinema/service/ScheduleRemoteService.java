@@ -120,4 +120,11 @@ public class ScheduleRemoteService implements ScheduleService {
         }
     }
 
+    @Override
+    public void deleteSchedule(Long id) {
+            try {
+                restTemplate.delete(hostAddress + pathSchedule + id);
+            } catch (RestClientException e) {
+            }
+    }
 }

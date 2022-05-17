@@ -164,5 +164,11 @@ public class AdminController {
         return "redirect:/movie/";
     }
 
+    @GetMapping("/schedule/{id}")
+    public String removeSchedule(@PathVariable Long id){
+        scheduleService.deleteSchedule(id);
+        return "redirect:/schedule/";
+    }
+
 
 }

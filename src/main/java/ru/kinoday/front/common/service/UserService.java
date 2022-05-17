@@ -70,9 +70,9 @@ public class UserService {
         PasswordResetToken myToken = new PasswordResetToken(token, userRepository.findByEmail(userEmail).get());
         tokenRepo.save(myToken);
 
-        String msg = "Hello! You can change your password with this link! " +
-                "localhost:8084/changePassword?token=" + token;
-        emailService.sendSimpleMessage(userEmail, "Password recovery", msg);
+        String msg = "Здравствуйте! Перейдите по этой ссылке для восстановления вашего пароля! " +
+                "http://90.189.152.163:80/changePassword?token=" + token;
+        emailService.sendSimpleMessage(userEmail, "Кинодень - Восстановление пароля", msg);
     }
 
     public void updatePassword(User user, String password) {

@@ -94,13 +94,15 @@
                     <td class=""  th:text="${row.getKey()}"></td>
                 </tr>
             </table>
+            <a sec:authorize="hasAuthority('worker:write')" class="bl mt10 darkness" th:href="@{/admin/schedule/{id}(id=${show.getScheduleElement().getId()})}">Удалить</a>
         </div>
 
     <div th:if="${#authorization.expression('isAuthenticated()')}" class="container" style="display: none" id="price">
         <h3 style="color: white" id="buy_text"></h3>
         <input id="agreement" type="checkbox" th:field="*{agreementAccepted}" required/>
         <label for="agreement">Я согласен с условиями <a href="/rules">пользовательского соглашения</a></label><br>
-        <button type="submit" id="buy_button" class="mauto btn btn-outline-success btn-block" th:text="'Купить'"></button>
+        <button type="submit" id="buy_button" name="bookOnly" value="false" class="mauto btn btn-outline-success btn-block w40 bl mt10" th:text="'Купить'"></button>
+        <button type="submit" name="bookOnly" value="true" class="mauto btn btn-outline-success btn-block w40 bl mt10" th:text="'Забронировать'"></button>
     </div>
     </form>
 

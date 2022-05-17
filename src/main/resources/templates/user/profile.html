@@ -52,8 +52,17 @@
             <span class="dark">Зал:</span>
             <span style="color: white" th:text="${ticket.getScheduled().getHall().getName()}"></span><br>
             <span style="color:white" th:text="'Ряд: ' + ${ticket.getPlace().row} + ', место: ' + ${ticket.getPlace().place}"></span><br>
-            <span class="dark">Покажите этот код в кинотеатре:</span><br>
-            <span style="color: white;border: 1px solid;padding: 3px;margin-top: 3px;display: block;" th:text="${ticket.getPersonalHashCode()}"></span>
+            <div th:if="${ticket.getType() == purchasedType}">
+                <span class="dark">Покажите этот код в кинотеатре:</span><br>
+                <span style="color: white;border: 1px solid;padding: 3px;margin-top: 3px;display: block;" th:text="${ticket.getPersonalHashCode()}"></span>
+            </div>
+            <div th:if="${ticket.getType() == bookedType}">
+                <a class="mt10 mauto btn btn-outline-danger btn-block inbl w40" href="/profile/buy">Оплатить</a>
+            </div>
+            <div th:if="${ticket.getType() == usedType}">
+                <span class="dark">Статус:</span><br>
+                <span style="color: white;border: 1px solid;padding: 3px;margin-top: 3px;display: block;" th:text="ИСПОЛЬЗОВАН"></span>
+            </div>
         </div>
         <div th:each="ticket : ${tickets}" th:if="${ticket.getScheduled().isStarted()}" style="opacity: 50%" class="ticket conHwer">
             <span style="color: white; font-weight: bold" th:text="${ticket.getScheduled().getMovie().getName()}"></span><br>
@@ -65,7 +74,6 @@
             <span style="color: white" th:text="${ticket.getScheduled().getHall().getName()}"></span><br>
             <span style="color:white" th:text="'Ряд: ' + ${ticket.getPlace().row} + ', место: ' + ${ticket.getPlace().place}"></span><br>
         </div>
-<!--        оплатить пяцот рупий-->
     </div>
 </div><footer th:include="fragments/footer"></footer></div>
 

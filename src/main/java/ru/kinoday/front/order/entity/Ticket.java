@@ -18,12 +18,4 @@ public class Ticket {
     private String email;
 }
 
-enum TicketType {
-    BOOKED,
-    PROCESSING,
-    PURCHASED,
-    USED,
-    EXPIRED,
-    AVAILABLE,
-}
 

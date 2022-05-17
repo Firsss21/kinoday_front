@@ -12,6 +12,7 @@ import ru.kinoday.front.common.service.UserService;
 import ru.kinoday.front.common.validation.dto.ProfileDTO;
 import ru.kinoday.front.common.validation.dto.UserDTO;
 import ru.kinoday.front.order.entity.Ticket;
+import ru.kinoday.front.order.entity.TicketType;
 import ru.kinoday.front.order.service.OrderService;
 
 import javax.servlet.http.HttpSession;
@@ -30,9 +31,21 @@ public class ProfileController {
     public String index(Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
         List<Ticket> tickets = orderService.getTicketByEmail(user.getEmail());
+
+        model.addAttribute("purchasedType", TicketType.PURCHASED);
+        model.addAttribute("bookedType", TicketType.BOOKED);
+        model.addAttribute("usedType", TicketType.USED);
+
         model.addAttribute("user", user.getProfileDTO());
         model.addAttribute("tickets", tickets);
         return "user/profile";
+    }
+
+    @GetMapping("/buy")
+    public String getPaymentLink(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        List<Ticket> tickets = orderService.getTicketByEmail(user.getEmail());
+        return orderService.getPaymentLink(tickets, user.getId());
     }
 
     @PostMapping

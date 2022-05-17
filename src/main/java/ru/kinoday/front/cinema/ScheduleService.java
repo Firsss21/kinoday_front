@@ -19,4 +19,6 @@ public interface ScheduleService {
     Show getShow(long scheduleId);
 
     ResponseEntity<String> addSchedule(ScheduleElementDto elementDto);
+
+    void deleteSchedule(Long id);
 }
