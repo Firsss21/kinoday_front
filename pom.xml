@@ -121,7 +121,7 @@
 				<configuration>
 					<jvmArguments>
 						-Xms64m
-						-Xmx128m
+						-Xmx518m
 					</jvmArguments>
 					<fork>true</fork>
 					<mainClass>${app.class}</mainClass>
