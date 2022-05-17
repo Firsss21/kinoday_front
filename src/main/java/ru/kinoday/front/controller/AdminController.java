@@ -65,7 +65,7 @@ public class AdminController {
 
         m.addAttribute("serverStatus", serverStatus);
 
-        return "/admin/index";
+        return "admin/index";
     }
 
     private Map<Long, String> getCinemaHallsNamesWithCinema() {

@@ -138,7 +138,7 @@ public class IndexController {
 
     @GetMapping("/rules")
     public String getRules() {
-        return "/info/rules";
+        return "info/rules";
     }
 
     @GetMapping("/user/{id}")
