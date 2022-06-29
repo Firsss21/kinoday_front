@@ -44,6 +44,20 @@
 ### **Архитектура приложения**
 ![image](https://user-images.githubusercontent.com/47852430/176085972-cf0cae39-eb34-4217-952a-98eac215ac94.png)
 
+Приложение состоит из 5 отдельных сервисов. Общаются между собой с помощью HTTP-запросов. Каждый сервис завернут в контейнер и имеет настроенный CI/CD pipeline. Приложение имеет несколько окружений развертывания: локальное, тестовое, боевое.
+
+#### **Описание сервисов:**
+
+• [Сервис конфигурации](//github.com/Firsss21/Spring-Config-Server)
+
+• [Сервис отображения страниц](//github.com/Firsss21/kinoday_front)
+
+• [Сервис новостей](//github.com/Firsss21/kinoday_news)
+
+• [Сервис фильмов, сеансов, билетов](//github.com/Firsss21/kinoday_cinema)
+
+• [Сервис платежей](//github.com/Firsss21/kinoday_payment)
+
 -----
 
 ### **CI/CD**
@@ -70,6 +84,9 @@ ADD app.jar /app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
 ```
 #### **CI/CD pipeline:**
+
+![image](https://user-images.githubusercontent.com/47852430/176349138-72c45ac3-df35-42eb-bee3-ab9dbd237be3.png)
+
 На каждый push/pull_request в master запускается этот pipeline, состоящий из: 
 
    • Перключения на ветку
@@ -152,3 +169,10 @@ jobs:
 
 
 -----
+
+#### **Демо:**
+
+https://youtu.be/l7yckx3LIDQ
+
+[<img src="https://img.youtube.com/vi/l7yckx3LIDQ/maxresdefault.jpg" width="70%">](https://youtu.be/l7yckx3LIDQ)
+
